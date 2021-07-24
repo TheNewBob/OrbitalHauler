@@ -5,6 +5,7 @@
 #include "core/Common.h"
 #include "systems/VesselSystem.h"
 #include "systems/mainengine/MainEngine.h"
+#include "systems/rcs/ReactionControlSystem.h"
 
 #include "core/OrbitalHauler.h"
 
@@ -50,6 +51,7 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 
 	// Initialise vessel systems
 	systems.push_back(new MainEngine(this));
+	systems.push_back(new ReactionControlSystem(this));
 
 	for (vector<VesselSystem*>::iterator it = systems.begin(); it != systems.end(); ++it) {
 		(*it)->init();
