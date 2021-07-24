@@ -1,7 +1,7 @@
 #pragma once
 
 
-class OrbitalHauler : public VESSEL3 {
+class OrbitalHauler : public VESSEL4 {
 public:
 	OrbitalHauler(OBJHANDLE hVessel, int flightmodel);
 	~OrbitalHauler();
