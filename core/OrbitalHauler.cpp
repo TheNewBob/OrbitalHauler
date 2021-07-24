@@ -2,8 +2,11 @@
 #define STRICT
 #define ORBITER_MODULE
 
-#include "core\Common.h"
-#include "core\OrbitalHauler.h"
+#include "core/Common.h"
+#include "systems/VesselSystem.h"
+#include "systems/mainengine/MainEngine.h"
+
+#include "core/OrbitalHauler.h"
 
 
 
@@ -31,12 +34,26 @@ DLLCLBK void InitModule(HINSTANCE hModule) {
 
 OrbitalHauler::OrbitalHauler(OBJHANDLE hVessel, int flightmodel) : VESSEL4(hVessel, flightmodel) { }
 
-OrbitalHauler::~OrbitalHauler() { }
+OrbitalHauler::~OrbitalHauler() {
+	
+	// Delete vessel systems
+	for (vector<VesselSystem*>::iterator it = systems.begin(); it != systems.end(); ++it) {
+		delete (*it);
+	}
+
+}
 
 void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 
 	Olog::setLogLevelFromFile(cfg);
 	Olog::info("Log level set to %i", Olog::loglevel);
+
+	// Initialise vessel systems
+	systems.push_back(new MainEngine(this));
+
+	for (vector<VesselSystem*>::iterator it = systems.begin(); it != systems.end(); ++it) {
+		(*it)->init();
+	}
 
 }
 

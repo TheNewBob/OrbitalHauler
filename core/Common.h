@@ -1,8 +1,17 @@
 #pragma once
 
-// Includes commonly shared declarations.
+// Contains commonly required includes and forward declarations.
+
+class OrbitalHauler;
 
 #include "orbitersdk.h"
+#include "WinDef.h"
+#include <string>
+#include <vector>
+
 #include "Olog.h"
+
+
+using namespace std;
 
 

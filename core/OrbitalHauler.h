@@ -7,5 +7,8 @@ public:
 	~OrbitalHauler();
 	void clbkSetClassCaps(FILEHANDLE cfg);
 
+private:
+	vector<VesselSystem*> systems;
+
 
 };

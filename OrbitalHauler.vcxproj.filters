@@ -18,7 +18,10 @@
     <ClCompile Include="core\OrbitalHauler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="systems\VesselSystem.cpp">
+    <ClCompile Include="systems\mainengine\MainEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="systems\rcs\ReactionControlSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -30,6 +33,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\mainengine\MainEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\rcs\ReactionControlSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
