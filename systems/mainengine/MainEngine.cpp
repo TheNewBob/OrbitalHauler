@@ -20,13 +20,13 @@ void MainEngine::init() {
 	// TODO: Some of this should be configurable in the CFG.
 
 	VECTOR3 pos = { 0, 0, -5 };
-	VECTOR3 dir = { 0, 0, -1 };
+	VECTOR3 dir = { 0, 0, 1 };
 	double thrust = 67000;
 	double isp = 9221;
 	
 	THRUSTER_HANDLE thrustHandle = vessel->CreateThruster(pos, dir, thrust, propHandle, isp);
 
 	vessel->CreateThrusterGroup(&thrustHandle, 1, THGROUP_MAIN);
-	vessel->AddExhaust(thrustHandle, 8, 1, pos, dir);
+	vessel->AddExhaust(thrustHandle, 8, 1, pos, dir * -1);
 
 }

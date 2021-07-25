@@ -39,8 +39,8 @@ OrbitalHauler::OrbitalHauler(OBJHANDLE hVessel, int flightmodel) : VESSEL4(hVess
 OrbitalHauler::~OrbitalHauler() {
 	
 	// Delete vessel systems
-	for (vector<VesselSystem*>::iterator it = systems.begin(); it != systems.end(); ++it) {
-		delete (*it);
+	for (const auto& it : systems) {
+		delete it;
 	}
 
 }
@@ -55,10 +55,9 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 	systems.push_back(new ReactionControlSystem(this));
 	systems.push_back(new DockPort(this));
 
-	for (vector<VesselSystem*>::iterator it = systems.begin(); it != systems.end(); ++it) {
-		(*it)->init();
+	for (const auto& it : systems) {
+		it->init();
 	}
-
 }
 
 
