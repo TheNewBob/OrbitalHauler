@@ -154,12 +154,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="core\OrbitalHauler.cpp" />
+    <ClCompile Include="systems\dockport\DockPort.cpp" />
     <ClCompile Include="systems\rcs\ReactionControlSystem.cpp" />
     <ClCompile Include="systems\mainengine\MainEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\Common.h" />
     <ClInclude Include="core\OrbitalHauler.h" />
+    <ClInclude Include="systems\dockport\DockPort.h" />
     <ClInclude Include="systems\rcs\ReactionControlSystem.h" />
     <ClInclude Include="systems\mainengine\MainEngine.h" />
     <ClInclude Include="systems\VesselSystem.h" />

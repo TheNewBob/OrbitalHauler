@@ -24,6 +24,9 @@
     <ClCompile Include="systems\rcs\ReactionControlSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="systems\dockport\DockPort.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\OrbitalHauler.h">
@@ -39,6 +42,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="systems\rcs\ReactionControlSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="systems\dockport\DockPort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
