@@ -15,3 +15,9 @@ Clone the dependencies required for building it, also into your Orbitersdk folde
 
 After cloning the project and its dependencies into the correct folders, the project *should* build and run.
 There's debug configurations for MOGE as well as D3D9 client (works also for other graphics clients, obviously).
+
+## Notes on folder structure
+The project uses a folder structure to separate its files, similar to Java packages. In order to work with it correctly, you need to turn on "show all files" in the solution explorer.
+You'll also have to include the path relative to the projects root when including header files.
+There is an orbiter folder, which should be used for any orbiter related files like the cfg, so they're contained in the repository. 
+There's no automation to copy these into their proper orbiter folders, becuase I have no idea how to do that in visual studio.
