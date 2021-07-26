@@ -11,7 +11,7 @@ The project is written using Visual Studio 2019 Express. If you're using an olde
 Clone this repository into your Orbitersdk folder. *Not* the samples folder, if you don't want to adjust all the paths!
 
 Clone the dependencies required for building it, also into your Orbitersdk folder:
-* Olog: https://github.com/TheNewBob/Olog : `clone https://github.com/TheNewBob/Olog.git`
+* Olog: https://github.com/TheNewBob/Olog : `git clone https://github.com/TheNewBob/Olog.git`
 
 After cloning the project and its dependencies into the correct folders, the project *should* build and run.
 There's debug configurations for MOGE as well as D3D9 client (works also for other graphics clients, obviously).
