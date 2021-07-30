@@ -216,6 +216,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="core\OrbitalHauler.cpp" />
+    <ClCompile Include="event\EventGenerator.cpp" />
+    <ClCompile Include="event\EventHandler.cpp" />
+    <ClCompile Include="event\EventNode.cpp" />
+    <ClCompile Include="event\EventSink.cpp" />
+    <ClCompile Include="event\Event_Base.cpp" />
+    <ClCompile Include="event\Event_Timed.cpp" />
     <ClCompile Include="model\ThrusterConfig.cpp" />
     <ClCompile Include="model\OrbitalHaulerConfig.cpp" />
     <ClCompile Include="systems\dockport\DockPort.cpp" />
@@ -225,6 +231,15 @@
   <ItemGroup>
     <ClInclude Include="core\Common.h" />
     <ClInclude Include="core\OrbitalHauler.h" />
+    <ClInclude Include="event\EventGenerator.h" />
+    <ClInclude Include="event\EventHandler.h" />
+    <ClInclude Include="event\EventNode.h" />
+    <ClInclude Include="event\Events.h" />
+    <ClInclude Include="event\EventSink.h" />
+    <ClInclude Include="event\events\SimulationStartedEvent.h" />
+    <ClInclude Include="event\EventTypes.h" />
+    <ClInclude Include="event\Event_Base.h" />
+    <ClInclude Include="event\Event_Timed.h" />
     <ClInclude Include="model\Models.h" />
     <ClInclude Include="model\ThrusterConfig.h" />
     <ClInclude Include="model\OrbitalHaulerConfig.h" />

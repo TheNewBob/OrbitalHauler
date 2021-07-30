@@ -9,6 +9,7 @@ class OrbitalHauler;
 #include <string>
 #include <vector>
 #include <sstream>
+#include <map>
 
 
 #include "Olog.h"
