@@ -1,10 +1,13 @@
 #include "core/Common.h"
 #include "systems/VesselSystem.h"
+#include "OpStdLibs.h"
+#include "OpForwardDeclare.h"
+#include "model/ThrusterConfig.h"
 #include "MainEngine.h"
 #include "core/OrbitalHauler.h"
 
 
-MainEngine::MainEngine(OrbitalHauler* vessel) : VesselSystem(vessel) {}
+MainEngine::MainEngine(ThrusterConfig config, OrbitalHauler* vessel) : VesselSystem(vessel), config(config) {}
 MainEngine::~MainEngine() {}
 
 
@@ -21,8 +24,8 @@ void MainEngine::init() {
 
 	VECTOR3 pos = { 0, 0, -5 };
 	VECTOR3 dir = { 0, 0, 1 };
-	double thrust = 67000;
-	double isp = 9221;
+	double thrust = config.thrust;
+	double isp = config.isp;
 	
 	THRUSTER_HANDLE thrustHandle = vessel->CreateThruster(pos, dir, thrust, propHandle, isp);
 

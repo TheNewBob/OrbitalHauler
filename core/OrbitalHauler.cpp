@@ -3,12 +3,19 @@
 #define ORBITER_MODULE
 
 #include "core/Common.h"
+#include "OpStdLibs.h"
+#include "Oparse.h"
+#include "model/Models.h"
+
 #include "systems/VesselSystem.h"
 #include "systems/mainengine/MainEngine.h"
 #include "systems/rcs/ReactionControlSystem.h"
 #include "systems/dockport/DockPort.h"
 
 #include "core/OrbitalHauler.h"
+
+
+using namespace Oparse;
 
 
 
@@ -34,7 +41,9 @@ DLLCLBK void InitModule(HINSTANCE hModule) {
 
 // Vessel class
 
-OrbitalHauler::OrbitalHauler(OBJHANDLE hVessel, int flightmodel) : VESSEL4(hVessel, flightmodel) { }
+OrbitalHauler::OrbitalHauler(OBJHANDLE hVessel, int flightmodel) : VESSEL4(hVessel, flightmodel) { 
+
+}
 
 OrbitalHauler::~OrbitalHauler() {
 	
@@ -48,12 +57,23 @@ OrbitalHauler::~OrbitalHauler() {
 void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 
 	Olog::setLogLevelFromFile(cfg);
-	Olog::info("Log level set to %i", Olog::loglevel);
+
+	// Load vessel config
+	OrbitalHaulerConfig config = OrbitalHaulerConfig();
+	OpModelDef modelDef = config.GetModelDef();
+
+	PARSINGRESULT result = ParseFile(cfg, modelDef, "OrbitalHauler.cfg");
+	if (result.HasErrors()) {
+		Olog::error((char*)result.GetFormattedErrorsForFile().c_str());
+		throw std::runtime_error("Errors in OrbitalHauler config, see log for details!");
+	}
+
+	// create vessel systems
+	systems.push_back(new MainEngine(config.mainEngineConfig, this));
+	systems.push_back(new ReactionControlSystem(config.rcsConfig, this));
+	systems.push_back(new DockPort(this));
 
 	// Initialise vessel systems
-	systems.push_back(new MainEngine(this));
-	systems.push_back(new ReactionControlSystem(this));
-	systems.push_back(new DockPort(this));
 
 	for (const auto& it : systems) {
 		it->init();

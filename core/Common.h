@@ -8,6 +8,8 @@ class OrbitalHauler;
 #include "WinDef.h"
 #include <string>
 #include <vector>
+#include <sstream>
+
 
 #include "Olog.h"
 

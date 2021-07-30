@@ -1,11 +1,14 @@
 #include "core/Common.h"
 #include "systems/VesselSystem.h"
+#include "OpStdLibs.h"
+#include "OpForwardDeclare.h"
+#include "model/ThrusterConfig.h"
 #include "systems/rcs/ReactionControlSystem.h"
 
 #include "core/OrbitalHauler.h"
 
 
-ReactionControlSystem::ReactionControlSystem(OrbitalHauler *vessel) : VesselSystem(vessel) {}
+ReactionControlSystem::ReactionControlSystem(ThrusterConfig config, OrbitalHauler *vessel) : VesselSystem(vessel), config(config) {}
 ReactionControlSystem::~ReactionControlSystem() {}
 
 void ReactionControlSystem::init() {
@@ -17,8 +20,8 @@ void ReactionControlSystem::init() {
 	// TODO: Arrange RCS thrusters into some smarter data structure so their creation can be written a bit more readable.
 	// This messy stuff is copied and modified from ShuttlePB because I'm lazy and they're not going to stay anyways. 
 	THRUSTER_HANDLE th_rcs[14], th_group[4];
-	double thrust = 1000;
-	double isp = 1000;
+	double thrust = config.thrust;
+	double isp = config.isp;
 
 	th_rcs[0] = vessel->CreateThruster(_V(1, 0, 5), _V(0, 1, 0), thrust, propHandle, isp);
 	th_rcs[1] = vessel->CreateThruster(_V(1, 0, 5), _V(0, -1, 0), thrust, propHandle, isp);

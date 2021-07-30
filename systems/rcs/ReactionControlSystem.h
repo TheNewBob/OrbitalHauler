@@ -4,10 +4,13 @@ class ReactionControlSystem :
     public VesselSystem
 {
 public:
-    ReactionControlSystem(OrbitalHauler* vessel);
+    ReactionControlSystem(ThrusterConfig config, OrbitalHauler* vessel);
     ~ReactionControlSystem();
 
     void init();
+
+private:
+    ThrusterConfig config;
 
 };
 

@@ -12,6 +12,7 @@ Clone this repository into your Orbitersdk folder. *Not* the samples folder, if 
 
 Clone the dependencies required for building it, also into your Orbitersdk folder:
 * Olog: https://github.com/TheNewBob/Olog : `git clone https://github.com/TheNewBob/Olog.git`
+* Oparse: https://github.com/TheNewBob/Oparse : `git clone https://github.com/TheNewBob/Oparse.git`
 
 After cloning the project and its dependencies into the correct folders, the project *should* build and run.
 There's debug configurations for MOGE as well as D3D9 client (works also for other graphics clients, obviously).

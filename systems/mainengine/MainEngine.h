@@ -5,9 +5,12 @@ class MainEngine :
     public VesselSystem
 {
 public:
-	MainEngine(OrbitalHauler *vessel);
+	MainEngine(ThrusterConfig config, OrbitalHauler *vessel);
 	~MainEngine();
 
 	void init();
+
+private:
+	ThrusterConfig config;
 };
 
