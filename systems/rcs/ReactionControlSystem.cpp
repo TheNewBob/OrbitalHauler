@@ -13,12 +13,11 @@
 ReactionControlSystem::ReactionControlSystem(ThrusterConfig config, OrbitalHauler *vessel) : VesselSystem(vessel), config(config) {}
 ReactionControlSystem::~ReactionControlSystem() {}
 
-void ReactionControlSystem::init() {
+void ReactionControlSystem::init(EventBroker& eventBroker) {
 	Olog::trace("RCS init");
 
 	// create event subscriptions
-	EventBroker &broker = vessel->getEventBroker();
-	broker.subscribe((EventSubscriber*)this, EVENTTOPIC::GENERAL);
+	eventBroker.subscribe((EventSubscriber*)this, EVENTTOPIC::GENERAL);
 
 
 	// Create the propellant tank.

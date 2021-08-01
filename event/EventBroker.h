@@ -3,9 +3,10 @@
 /**
  * A synchronous message broker for framelocked applications, implementing a pub/sub pattern.
  * 
- * The main goal is, as is typical for event engines, to decouple invocation and execution of code.
- * It is a frequent problem that some state changes in the simulation need to trigger some recalculation of other states.
- * If you this by direct invocation of a method, you're running the danger that another state change happens in the same frame 
+ * The main goal is to decouple invocation and execution of code, granting the ability to defer execution an arbitrary number of frames without any code overhead.
+ *
+ * It is a frequent problem that some state changes in the simulation need to trigger some recalculation of a related state.
+ * If you do this by direct invocation of a method, you're running the danger that another state change happens in the same frame 
  * that requires the same calculation again, so now you wasted a couple of cycles.
  * A way out of this is setting flags and processig them at the beginning of the next frame. If you have a lot of these flags, 
  * that'll get messy pretty quickly, and they need to be either put in a place where they are accessible to everyone, or you need
@@ -37,9 +38,32 @@ public:
 	EventBroker();
 	~EventBroker();
 
+	/**
+	 * Subscribes the passed EventSubscriber to the passed topic. The subscriber will receive all events for that topic until they unsubscribe. 
+	 * \return true If the subscription was successful, false if the subscriber is already subscribed to the topic.
+	 */
 	bool subscribe(EventSubscriber *subscriber, EVENTTOPIC topic);
+	
+	/**
+	 * Unsubscribes an EventSubscriber from the passed topic. After unsubscribing, it will no longer receive events for that topic.
+	 * \return true if successfully unsubscribed, false if the subscriber hasn't actually been subscribed to the topic.
+	 */
 	bool unsubscribe(EventSubscriber *subscriber, EVENTTOPIC topic);
+	
+	/**
+	 * Publish an event to a topic. The event will be propagated to all topic subscribers when their delay runs down. 
+	 * Publishing duplicate events to the same topic will still only propagate one event of that kind through the topic.
+	 * Publishing an event with a delay of 0 will *immediately* be propagated without even being added to the event queue, ignoring duplicates.
+	 * Published events will be deleted after propagating through their topics, or immiediately on publishing if a duplicate exists.
+	 * Do not keep pointers to events around, and do not delete them yourself, or there will be mayhem.
+	 */
 	void publish(EVENTTOPIC topic, Event_Base* event);
+
+	/**
+	 * Propagates an event through a topic *immediately*, *without* taking ownership of the event.
+	 * The event will still exist after propagation through the relayed topic. 
+	 * This is intended to be used when you need an event to jump topics.
+	 */
 	void relay(EVENTTOPIC topic, Event_Base* event);
 
 	/**
@@ -53,6 +77,6 @@ private:
 	
 	std::map<EVENTTOPIC, std::vector<EventSubscriber*>> subscribers;
 
-	std::map<EVENTTOPIC, std::deque<Event_Base*>> eventqueues;					//!< The eventqueue, containing all events that are waiting to be sent out.
+	std::map<EVENTTOPIC, std::deque<Event_Base*>> eventqueues;
 };
 

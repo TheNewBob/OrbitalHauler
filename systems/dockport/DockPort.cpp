@@ -10,11 +10,11 @@
 DockPort::DockPort(OrbitalHauler* vessel) : VesselSystem(vessel) {}
 DockPort::~DockPort() {}
 
-void DockPort::init() {
+void DockPort::init(EventBroker& eventBroker) {
 	
 	// create event subscriptions
-	EventBroker &broker = vessel->getEventBroker();
-	broker.subscribe((EventSubscriber*)this, EVENTTOPIC::GENERAL);
+	
+	eventBroker.subscribe((EventSubscriber*)this, EVENTTOPIC::GENERAL);
 
 
 	VECTOR3 pos = { 0, 0, 5 };

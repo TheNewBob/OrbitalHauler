@@ -8,7 +8,7 @@ public:
 	};
 	~VesselSystem() {};
 
-	virtual void init() = 0;
+	virtual void init(EventBroker &eventBroker) = 0;
 	virtual void preStep(double simt, double simDt, double mjd) {};
 	virtual void postStep(double simt, double simDt, double mjd) {};
 

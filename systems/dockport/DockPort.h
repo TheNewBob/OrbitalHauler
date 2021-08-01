@@ -8,7 +8,7 @@ public:
     DockPort(OrbitalHauler* vessel);
     ~DockPort();
 
-    void init();
+    void init(EventBroker& eventBroker);
 
 protected:
     virtual void receiveEvent(Event_Base* event, EVENTTOPIC topic);

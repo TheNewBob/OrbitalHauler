@@ -55,10 +55,6 @@ OrbitalHauler::~OrbitalHauler() {
 
 }
 
-EventBroker& OrbitalHauler::getEventBroker() {
-	return eventBroker;
-}
-
 void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 
 	Olog::setLogLevelFromFile(cfg);
@@ -81,7 +77,7 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 	// Initialise vessel systems
 
 	for (const auto& it : systems) {
-		it->init();
+		it->init(eventBroker);
 	}
 
 	// Event will be propagated in first clbkPreStep

@@ -13,12 +13,11 @@ MainEngine::MainEngine(ThrusterConfig config, OrbitalHauler* vessel) : VesselSys
 MainEngine::~MainEngine() {}
 
 
-void MainEngine::init() {
+void MainEngine::init(EventBroker& eventBroker) {
 	Olog::trace("Main engine init");
 
 	// create event subscriptions
-	EventBroker &broker = vessel->getEventBroker();
-	broker.subscribe((EventSubscriber*)this, EVENTTOPIC::GENERAL);
+	eventBroker.subscribe((EventSubscriber*)this, EVENTTOPIC::GENERAL);
 
 
 	// Create the propellant tank.

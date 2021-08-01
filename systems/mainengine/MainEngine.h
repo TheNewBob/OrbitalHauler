@@ -8,7 +8,7 @@ public:
 	MainEngine(ThrusterConfig config, OrbitalHauler *vessel);
 	~MainEngine();
 
-	void init();
+	void init(EventBroker& eventBroker);
 
 protected:
 	virtual void receiveEvent(Event_Base* event, EVENTTOPIC topic);
