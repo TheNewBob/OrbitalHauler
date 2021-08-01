@@ -1,7 +1,9 @@
 #include "core/Common.h"
-#include "systems/VesselSystem.h"
 #include "OpStdLibs.h"
 #include "OpForwardDeclare.h"
+#include "event/Events.h"
+
+#include "systems/VesselSystem.h"
 #include "model/ThrusterConfig.h"
 #include "systems/rcs/ReactionControlSystem.h"
 
@@ -12,6 +14,13 @@ ReactionControlSystem::ReactionControlSystem(ThrusterConfig config, OrbitalHaule
 ReactionControlSystem::~ReactionControlSystem() {}
 
 void ReactionControlSystem::init() {
+	Olog::trace("RCS init");
+
+	// create event subscriptions
+	EventBroker &broker = vessel->getEventBroker();
+	broker.subscribe((EventSubscriber*)this, EVENTTOPIC::SYSTEMS);
+
+
 	// Create the propellant tank.
 	double propMass = 500;
 	PROPELLANT_HANDLE propHandle = vessel->CreatePropellantResource(propMass);
@@ -92,6 +101,12 @@ void ReactionControlSystem::init() {
 
 	vessel->CreateThrusterGroup(th_rcs + 12, 1, THGROUP_ATT_FORWARD);
 	vessel->CreateThrusterGroup(th_rcs + 13, 1, THGROUP_ATT_BACK);
+}
 
 
+void ReactionControlSystem::receiveEvent(Event_Base* event) {
+	
+	if (*event == SIMULATIONSTARTEDEVENT) {
+		Olog::info("RCS received sim started event!");
+	}
 }

@@ -246,6 +246,7 @@
     <ClInclude Include="model\Models.h" />
     <ClInclude Include="model\ThrusterConfig.h" />
     <ClInclude Include="model\OrbitalHaulerConfig.h" />
+    <ClInclude Include="event\events\SimpleEvent.h" />
     <ClInclude Include="systems\dockport\DockPort.h" />
     <ClInclude Include="systems\rcs\ReactionControlSystem.h" />
     <ClInclude Include="systems\mainengine\MainEngine.h" />

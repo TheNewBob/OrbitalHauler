@@ -6,9 +6,11 @@ public:
 	OrbitalHauler(OBJHANDLE hVessel, int flightmodel);
 	~OrbitalHauler();
 	void clbkSetClassCaps(FILEHANDLE cfg);
+	void clbkPreStep(double  simt, double  simdt, double  mjd);
+
+	EventBroker& getEventBroker();
 
 private:
 	vector<VesselSystem*> systems;
-
-
+	EventBroker eventBroker;
 };

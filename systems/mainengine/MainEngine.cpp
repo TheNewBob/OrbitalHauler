@@ -1,7 +1,9 @@
 #include "core/Common.h"
-#include "systems/VesselSystem.h"
 #include "OpStdLibs.h"
 #include "OpForwardDeclare.h"
+#include "event/Events.h"
+
+#include "systems/VesselSystem.h"
 #include "model/ThrusterConfig.h"
 #include "MainEngine.h"
 #include "core/OrbitalHauler.h"
@@ -13,6 +15,11 @@ MainEngine::~MainEngine() {}
 
 void MainEngine::init() {
 	Olog::trace("Main engine init");
+
+	// create event subscriptions
+	EventBroker &broker = vessel->getEventBroker();
+	broker.subscribe((EventSubscriber*)this, EVENTTOPIC::SYSTEMS);
+
 
 	// Create the propellant tank.
 	// TODO: If we're going to do anything complex with tanks, they should probably become an own VesselSystem instance.
@@ -32,4 +39,11 @@ void MainEngine::init() {
 	vessel->CreateThrusterGroup(&thrustHandle, 1, THGROUP_MAIN);
 	vessel->AddExhaust(thrustHandle, 8, 1, pos, dir * -1);
 
+}
+
+void MainEngine::receiveEvent(Event_Base* event) {
+
+	if (*event == SIMULATIONSTARTEDEVENT) {
+		Olog::info("Main engine received sim started event!");
+	}
 }

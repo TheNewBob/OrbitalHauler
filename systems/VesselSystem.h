@@ -1,6 +1,6 @@
 #pragma once
 
-class VesselSystem {
+class VesselSystem : public EventSubscriber {
 
 public:
 	VesselSystem(OrbitalHauler* vessel) {

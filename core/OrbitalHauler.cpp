@@ -6,6 +6,7 @@
 #include "OpStdLibs.h"
 #include "Oparse.h"
 #include "model/Models.h"
+#include "event/Events.h"
 
 #include "systems/VesselSystem.h"
 #include "systems/mainengine/MainEngine.h"
@@ -54,6 +55,10 @@ OrbitalHauler::~OrbitalHauler() {
 
 }
 
+EventBroker& OrbitalHauler::getEventBroker() {
+	return eventBroker;
+}
+
 void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 
 	Olog::setLogLevelFromFile(cfg);
@@ -78,6 +83,18 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 	for (const auto& it : systems) {
 		it->init();
 	}
+
+	// Event will be propagated in first clbkPreStep
+	eventBroker.publish(EVENTTOPIC::SYSTEMS, new SimpleEvent(SIMULATIONSTARTEDEVENT));
+
+}
+
+
+void OrbitalHauler::clbkPreStep(double  simt, double  simdt, double  mjd) {
+	
+	// Propagate due events.
+	eventBroker.processEvents();
+
 }
 
 

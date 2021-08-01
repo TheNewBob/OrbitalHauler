@@ -9,5 +9,8 @@ public:
     ~DockPort();
 
     void init();
+
+protected:
+    virtual void receiveEvent(Event_Base* event);
 };
 

@@ -9,6 +9,9 @@ public:
 
     void init();
 
+protected:
+    virtual void receiveEvent(Event_Base* event);
+
 private:
     ThrusterConfig config;
 

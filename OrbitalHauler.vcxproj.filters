@@ -116,5 +116,8 @@
     <ClInclude Include="event\EventSubscriber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="event\events\SimpleEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
