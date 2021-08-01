@@ -14,7 +14,7 @@ void DockPort::init() {
 	
 	// create event subscriptions
 	EventBroker &broker = vessel->getEventBroker();
-	broker.subscribe((EventSubscriber*)this, EVENTTOPIC::SYSTEMS);
+	broker.subscribe((EventSubscriber*)this, EVENTTOPIC::GENERAL);
 
 
 	VECTOR3 pos = { 0, 0, 5 };
@@ -25,9 +25,9 @@ void DockPort::init() {
 }
 
 
-void DockPort::receiveEvent(Event_Base* event) {
+void DockPort::receiveEvent(Event_Base* event, EVENTTOPIC topic) {
 
-	if (*event == SIMULATIONSTARTEDEVENT) {
+	if (*event == EVENTTYPE::SIMULATIONSTARTEDEVENT) {
 		Olog::info("Dockport received sim started event!");
 	}
 }

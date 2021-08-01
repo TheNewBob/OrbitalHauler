@@ -18,7 +18,7 @@ void MainEngine::init() {
 
 	// create event subscriptions
 	EventBroker &broker = vessel->getEventBroker();
-	broker.subscribe((EventSubscriber*)this, EVENTTOPIC::SYSTEMS);
+	broker.subscribe((EventSubscriber*)this, EVENTTOPIC::GENERAL);
 
 
 	// Create the propellant tank.
@@ -41,9 +41,9 @@ void MainEngine::init() {
 
 }
 
-void MainEngine::receiveEvent(Event_Base* event) {
+void MainEngine::receiveEvent(Event_Base* event, EVENTTOPIC topic) {
 
-	if (*event == SIMULATIONSTARTEDEVENT) {
+	if (*event == EVENTTYPE::SIMULATIONSTARTEDEVENT) {
 		Olog::info("Main engine received sim started event!");
 	}
 }

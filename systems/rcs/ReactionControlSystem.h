@@ -10,7 +10,7 @@ public:
     void init();
 
 protected:
-    virtual void receiveEvent(Event_Base* event);
+    virtual void receiveEvent(Event_Base* event, EVENTTOPIC topic);
 
 private:
     ThrusterConfig config;

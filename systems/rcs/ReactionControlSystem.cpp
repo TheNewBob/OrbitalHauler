@@ -18,7 +18,7 @@ void ReactionControlSystem::init() {
 
 	// create event subscriptions
 	EventBroker &broker = vessel->getEventBroker();
-	broker.subscribe((EventSubscriber*)this, EVENTTOPIC::SYSTEMS);
+	broker.subscribe((EventSubscriber*)this, EVENTTOPIC::GENERAL);
 
 
 	// Create the propellant tank.
@@ -104,9 +104,9 @@ void ReactionControlSystem::init() {
 }
 
 
-void ReactionControlSystem::receiveEvent(Event_Base* event) {
+void ReactionControlSystem::receiveEvent(Event_Base* event, EVENTTOPIC topic) {
 	
-	if (*event == SIMULATIONSTARTEDEVENT) {
+	if (*event == EVENTTYPE::SIMULATIONSTARTEDEVENT) {
 		Olog::info("RCS received sim started event!");
 	}
 }

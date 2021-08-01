@@ -39,18 +39,6 @@
     <ClCompile Include="event\Event_Timed.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="event\EventGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="event\EventHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="event\EventNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="event\EventSink.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="event\EventBroker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -89,25 +77,10 @@
     <ClInclude Include="event\Event_Timed.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="event\EventGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="event\EventHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="event\EventNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="event\Events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="event\EventSink.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="event\EventTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="event\events\SimulationStartedEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="event\EventBroker.h">

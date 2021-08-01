@@ -85,7 +85,7 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 	}
 
 	// Event will be propagated in first clbkPreStep
-	eventBroker.publish(EVENTTOPIC::SYSTEMS, new SimpleEvent(SIMULATIONSTARTEDEVENT));
+	eventBroker.publish(EVENTTOPIC::GENERAL, new SimpleEvent(EVENTTYPE::SIMULATIONSTARTEDEVENT));
 
 }
 
@@ -93,6 +93,7 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 void OrbitalHauler::clbkPreStep(double  simt, double  simdt, double  mjd) {
 	
 	// Propagate due events.
+	// This should always remain at the beginning of clbkPreStep and never be called anywhere else.
 	eventBroker.processEvents();
 
 }

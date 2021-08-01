@@ -3,8 +3,8 @@
 #include "Event_Base.h"
 
 
-Event_Base::Event_Base(EVENTTYPE _type, unsigned int _delay)
-	: eventtype(_type), delay(_delay)
+Event_Base::Event_Base(EVENTTYPE type, unsigned int delay)
+	: eventtype(type), delay(delay)
 {
 }
 
@@ -26,7 +26,7 @@ bool Event_Base::sendMe()
 
 bool Event_Base::operator==(Event_Base *e)
 {
-	//if the types of the event are identical, they are considered the same event
+	//if the types of the events are identical, they are considered the same event
 	if (eventtype == e->eventtype)
 	{
 		return true;

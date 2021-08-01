@@ -112,7 +112,7 @@ void EventBroker::relay(EVENTTOPIC topic, Event_Base* event) {
 void EventBroker::propagateEvent(EVENTTOPIC topic, Event_Base *event) {
 	vector<EventSubscriber*> &topicSubscribers = subscribers[topic];
 	for (vector<EventSubscriber*>::iterator it = topicSubscribers.begin(); it != topicSubscribers.end(); it++) {
-		(*it)->receiveEvent(event);
+		(*it)->receiveEvent(event, topic);
 	}
 }
 
