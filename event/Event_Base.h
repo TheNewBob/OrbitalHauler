@@ -14,6 +14,7 @@ class Event_Base
 public:
 
 	friend class EventGenerator;
+	friend class EventBroker;
 
 	/**
 	 * \param _type The identifier for this kind of event

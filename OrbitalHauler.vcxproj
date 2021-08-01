@@ -216,6 +216,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="core\OrbitalHauler.cpp" />
+    <ClCompile Include="event\EventBroker.cpp" />
     <ClCompile Include="event\EventGenerator.cpp" />
     <ClCompile Include="event\EventHandler.cpp" />
     <ClCompile Include="event\EventNode.cpp" />
@@ -231,6 +232,8 @@
   <ItemGroup>
     <ClInclude Include="core\Common.h" />
     <ClInclude Include="core\OrbitalHauler.h" />
+    <ClInclude Include="event\EventSubscriber.h" />
+    <ClInclude Include="event\EventBroker.h" />
     <ClInclude Include="event\EventGenerator.h" />
     <ClInclude Include="event\EventHandler.h" />
     <ClInclude Include="event\EventNode.h" />

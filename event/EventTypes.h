@@ -48,6 +48,13 @@ typedef enum
 	VESSEL_TO_SYSTEMS_PIPE,			//!< Carries events from the vessel to modules, and from there to module functions
 } EVENTPIPE;
 
+enum class EVENTTOPIC
+{
+	WAITING_QUEUE,
+	DEFAULT_TOPIC,
+	SYSTEMS
+};
+
 
 /**
  * \brief Defines the possible EventHandler types
