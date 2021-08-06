@@ -215,6 +215,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cockpit\Cockpit.cpp" />
     <ClCompile Include="core\OrbitalHauler.cpp" />
     <ClCompile Include="event\EventBroker.cpp" />
     <ClCompile Include="event\Event_Base.cpp" />
@@ -226,6 +227,7 @@
     <ClCompile Include="systems\mainengine\MainEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cockpit\Cockpit.h" />
     <ClInclude Include="core\Common.h" />
     <ClInclude Include="core\OrbitalHauler.h" />
     <ClInclude Include="event\EventSubscriber.h" />

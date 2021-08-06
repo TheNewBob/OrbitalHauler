@@ -12,7 +12,7 @@
 #include "systems/mainengine/MainEngine.h"
 #include "systems/rcs/ReactionControlSystem.h"
 #include "systems/dockport/DockPort.h"
-
+#include "cockpit/Cockpit.h"
 #include "core/OrbitalHauler.h"
 
 
@@ -80,6 +80,9 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 		it->init(eventBroker);
 	}
 
+	cockpit = new Cockpit();
+	cockpit->init(this);
+
 	// Event will be propagated in first clbkPreStep
 	eventBroker.publish(EVENTTOPIC::GENERAL, new SimpleEvent(EVENTTYPE::SIMULATIONSTARTEDEVENT));
 
@@ -92,6 +95,12 @@ void OrbitalHauler::clbkPreStep(double  simt, double  simdt, double  mjd) {
 	// This should always remain at the beginning of clbkPreStep and never be called anywhere else.
 	eventBroker.processEvents();
 
+}
+
+bool OrbitalHauler::clbkLoadVC(int id) {
+
+	SetCameraOffset(_V(-0.575f, 2.4f, 15.9f));
+	return true;
 }
 
 
