@@ -75,8 +75,14 @@ public:
 private:
 	void propagateEvent(EVENTTOPIC topic, Event_Base *event);
 	
+	/**
+	 * Clears all unsent events in a topic. The topic itself still exists afterwards, though.
+	 */
+	void clearEventsForTopic(EVENTTOPIC topic);
+
 	std::map<EVENTTOPIC, std::vector<EventSubscriber*>> subscribers;
 
 	std::map<EVENTTOPIC, std::deque<Event_Base*>> eventqueues;
+
 };
 

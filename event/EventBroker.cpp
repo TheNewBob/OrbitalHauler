@@ -10,7 +10,12 @@
 using namespace std;
 
 EventBroker::EventBroker() {};
-EventBroker::~EventBroker() {};
+EventBroker::~EventBroker() {
+	// Walk through all event queues and delete all unsent events.
+	for (const auto& it : eventqueues) {
+		clearEventsForTopic(it.first);
+	}
+};
 
 bool EventBroker::subscribe(EventSubscriber *subscriber, EVENTTOPIC topic) {
 	vector<EventSubscriber*>& topicSubscribers = subscribers[topic];
@@ -31,6 +36,11 @@ bool EventBroker::unsubscribe(EventSubscriber *subscriber, EVENTTOPIC topic) {
 	vector<EventSubscriber*>::iterator it = topicSubscribers.begin();
 	if (std::find(it, topicSubscribers.end(), subscriber) != topicSubscribers.end()) {
 		topicSubscribers.erase(it);
+		if (topicSubscribers.size() == 0) {
+			subscribers.erase(topic);
+			clearEventsForTopic(topic);
+			eventqueues.erase(topic);
+		}
 		return true;
 	}
 	return false;
@@ -113,6 +123,18 @@ void EventBroker::propagateEvent(EVENTTOPIC topic, Event_Base *event) {
 	vector<EventSubscriber*> &topicSubscribers = subscribers[topic];
 	for (vector<EventSubscriber*>::iterator it = topicSubscribers.begin(); it != topicSubscribers.end(); it++) {
 		(*it)->receiveEvent(event, topic);
+	}
+}
+
+void EventBroker::clearEventsForTopic(EVENTTOPIC topic) {
+	
+	deque<Event_Base*>& topicQueue = eventqueues[topic];
+	UINT inqueue = topicQueue.size();
+	for (UINT i = 0; i < inqueue; ++i)
+	{
+		Event_Base* e = topicQueue.front();
+		topicQueue.pop_front();
+		delete e;
 	}
 }
 
