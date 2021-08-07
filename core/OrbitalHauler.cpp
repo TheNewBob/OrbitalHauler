@@ -99,9 +99,21 @@ void OrbitalHauler::clbkPreStep(double  simt, double  simdt, double  mjd) {
 
 bool OrbitalHauler::clbkLoadVC(int id) {
 
-	SetCameraOffset(_V(-0.575f, 2.4f, 15.9f));
+	SetCameraOffset(_V(0, 1, -0.5));
+	cockpit->defineAreas();
 	return true;
 }
 
+bool OrbitalHauler::clbkVCMouseEvent(int id, int event, VECTOR3& p) {
+
+	bool bugme = true;
+	return true;
+}
+
+bool OrbitalHauler::clbkVCRedrawEvent(int  id, int  event, SURFHANDLE  surf) {
+
+	bool bugme = true;
+	return false;
+}
 
 
