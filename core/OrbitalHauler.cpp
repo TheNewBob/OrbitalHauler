@@ -13,6 +13,7 @@
 #include "systems/rcs/ReactionControlSystem.h"
 #include "systems/dockport/DockPort.h"
 #include "cockpit/Cockpit.h"
+#include "switchflip/PrototypeSwitch.h"
 #include "core/OrbitalHauler.h"
 
 
@@ -80,8 +81,17 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 		it->init(eventBroker);
 	}
 
-	cockpit = new Cockpit();
-	cockpit->init(this);
+
+	// VC (experimental)
+	VECTOR3 paneloffset = _V(0, 0, 0);
+	MESHHANDLE panelMesh = oapiLoadMeshGlobal("switchflip\\panel");
+	SetMeshVisibilityMode(AddMesh(panelMesh, &paneloffset), MESHVIS_VC);
+
+	testSwitches.push_back(new PrototypeSwitch(1, _V(-0.8, 0.05, 0.9)));
+
+	for (const auto& it : testSwitches) {
+		it->init(this);
+	}
 
 	// Event will be propagated in first clbkPreStep
 	eventBroker.publish(EVENTTOPIC::GENERAL, new SimpleEvent(EVENTTYPE::SIMULATIONSTARTEDEVENT));
@@ -100,13 +110,16 @@ void OrbitalHauler::clbkPreStep(double  simt, double  simdt, double  mjd) {
 bool OrbitalHauler::clbkLoadVC(int id) {
 
 	SetCameraOffset(_V(0, 1, -0.5));
-	cockpit->defineAreas();
+	for (const auto& it : testSwitches) {
+		it->loadVC();
+	}
+
 	return true;
 }
 
 bool OrbitalHauler::clbkVCMouseEvent(int id, int event, VECTOR3& p) {
 
-	bool bugme = true;
+	testSwitches[0]->triggerSwitch();
 	return true;
 }
 

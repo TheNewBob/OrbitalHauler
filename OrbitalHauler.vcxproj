@@ -222,6 +222,7 @@
     <ClCompile Include="event\Event_Timed.cpp" />
     <ClCompile Include="model\ThrusterConfig.cpp" />
     <ClCompile Include="model\OrbitalHaulerConfig.cpp" />
+    <ClCompile Include="switchflip\PrototypeSwitch.cpp" />
     <ClCompile Include="systems\dockport\DockPort.cpp" />
     <ClCompile Include="systems\rcs\ReactionControlSystem.cpp" />
     <ClCompile Include="systems\mainengine\MainEngine.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="model\ThrusterConfig.h" />
     <ClInclude Include="model\OrbitalHaulerConfig.h" />
     <ClInclude Include="event\events\SimpleEvent.h" />
+    <ClInclude Include="switchflip\PrototypeSwitch.h" />
     <ClInclude Include="systems\dockport\DockPort.h" />
     <ClInclude Include="systems\rcs\ReactionControlSystem.h" />
     <ClInclude Include="systems\mainengine\MainEngine.h" />

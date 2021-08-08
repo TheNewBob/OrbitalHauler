@@ -1,6 +1,6 @@
 #pragma once
 
-class Cockpit;
+class PrototypeSwitch;
 
 class OrbitalHauler : public VESSEL4 {
 public:
@@ -15,7 +15,8 @@ public:
 
 
 private:
-	Cockpit *cockpit = 0;
 	vector<VesselSystem*> systems;
 	EventBroker eventBroker;
+	vector<PrototypeSwitch*> testSwitches;
+
 };

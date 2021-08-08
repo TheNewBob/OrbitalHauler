@@ -45,6 +45,9 @@
     <ClCompile Include="cockpit\Cockpit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="switchflip\PrototypeSwitch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\OrbitalHauler.h">
@@ -96,6 +99,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cockpit\Cockpit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="switchflip\PrototypeSwitch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
