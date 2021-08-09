@@ -11,6 +11,7 @@
  */
 enum class EVENTTYPE {
 	SIMULATIONSTARTEDEVENT,
+	MOUSEEVENT,
 
 };
 
@@ -22,5 +23,6 @@ enum class EVENTTYPE {
 enum class EVENTTOPIC
 {
 	GENERAL,
+	UI_VC,
 
 };

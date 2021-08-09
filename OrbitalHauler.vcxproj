@@ -234,6 +234,7 @@
     <ClInclude Include="event\EventSubscriber.h" />
     <ClInclude Include="event\EventBroker.h" />
     <ClInclude Include="event\Events.h" />
+    <ClInclude Include="event\events\MouseEvent.h" />
     <ClInclude Include="event\EventTypes.h" />
     <ClInclude Include="event\Event_Base.h" />
     <ClInclude Include="event\Event_Timed.h" />

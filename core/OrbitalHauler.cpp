@@ -90,7 +90,7 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 	testSwitches.push_back(new PrototypeSwitch(1, _V(-0.8, 0.05, 0.9)));
 
 	for (const auto& it : testSwitches) {
-		it->init(this);
+		it->init(this, eventBroker);
 	}
 
 	// Event will be propagated in first clbkPreStep
@@ -119,7 +119,7 @@ bool OrbitalHauler::clbkLoadVC(int id) {
 
 bool OrbitalHauler::clbkVCMouseEvent(int id, int event, VECTOR3& p) {
 
-	testSwitches[0]->triggerSwitch();
+	eventBroker.publish(EVENTTOPIC::UI_VC, new MouseEvent(id, event));
 	return true;
 }
 

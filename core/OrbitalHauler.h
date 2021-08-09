@@ -11,8 +11,6 @@ public:
 	bool clbkLoadVC(int id);
 	bool clbkVCMouseEvent(int id, int event, VECTOR3& p);
 	bool clbkVCRedrawEvent(int  id, int  event, SURFHANDLE  surf);
-	
-
 
 private:
 	vector<VesselSystem*> systems;

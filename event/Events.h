@@ -14,4 +14,5 @@
 
 //include the different event classes
 #include "event/events/SimpleEvent.h"
+#include "event/events/MouseEvent.h"
 

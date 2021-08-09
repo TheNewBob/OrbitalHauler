@@ -1,4 +1,5 @@
 #include "core/Common.h"
+#include "event/Events.h"
 #include "PrototypeSwitch.h"
 
 PrototypeSwitch::PrototypeSwitch(int panelId, VECTOR3 position): panelId(panelId), position(position) {}
@@ -9,8 +10,10 @@ PrototypeSwitch::~PrototypeSwitch() {
 	delete animComponent;
 }
 
-void PrototypeSwitch::init(VESSEL4* vessel) {
+void PrototypeSwitch::init(VESSEL4* vessel, EventBroker &eventBroker) {
 	this->vessel = vessel;
+	eventBroker.subscribe(this, EVENTTOPIC::UI_VC);
+
 	meshIndex = vessel->GetMeshCount();
 	vessel->SetMeshVisibilityMode(vessel->AddMesh(mesh = oapiLoadMeshGlobal("switchflip\\switch"), &position), MESHVIS_VC);
 
@@ -25,12 +28,23 @@ void PrototypeSwitch::init(VESSEL4* vessel) {
 
 void PrototypeSwitch::loadVC() {
 	// This stuff *needs* to be called from clbkLoadVC, or it won't have an effect. Almost went crazy...
-	oapiVCRegisterArea(1, PANEL_REDRAW_NEVER, PANEL_MOUSE_LBDOWN);
-	oapiVCSetAreaClickmode_Spherical(1, position, 0.1);
+	oapiVCRegisterArea(panelId, PANEL_REDRAW_NEVER, PANEL_MOUSE_LBDOWN);
+	oapiVCSetAreaClickmode_Spherical(panelId, position, 0.1);
 
 }
 
-void PrototypeSwitch::triggerSwitch() {
+void PrototypeSwitch::receiveEvent(Event_Base *event, EVENTTOPIC topic) {
+
+	if (*event == EVENTTYPE::MOUSEEVENT) {
+		MouseEvent* mouseEvent = (MouseEvent*)event;
+		if (mouseEvent->getVcId() == panelId && mouseEvent->getEvent() == PANEL_MOUSE_LBDOWN) {
+				toggle();
+		}
+	}
+}
+
+void PrototypeSwitch::toggle() {
+
 	if (state) {
 		vessel->SetAnimation(animationId, 0);
 		state = false;
@@ -39,5 +53,5 @@ void PrototypeSwitch::triggerSwitch() {
 		vessel->SetAnimation(animationId, 1);
 		state = true;
 	}
-	
+
 }
