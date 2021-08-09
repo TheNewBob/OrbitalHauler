@@ -87,7 +87,16 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 	MESHHANDLE panelMesh = oapiLoadMeshGlobal("switchflip\\panel");
 	SetMeshVisibilityMode(AddMesh(panelMesh, &paneloffset), MESHVIS_VC);
 
-	testSwitches.push_back(new PrototypeSwitch(1, _V(-0.8, 0.05, 0.9)));
+	for (int x = 0; x < 5; x++) {
+		for (int y = 0; y < 10; y++) {
+			int id = x + y * 5 + 1;
+			VECTOR3 panelPosition = _V(0.8 - (x * 0.4), 0.05, 0.9 - y * 0.2);
+			testSwitches.push_back(new PrototypeSwitch(id, panelPosition));
+		}
+	}
+//	testSwitches.push_back(new PrototypeSwitch(1, _V(-0.8, 0.05, 0.9)));
+//	testSwitches.push_back(new PrototypeSwitch(2, _V(-0.4, 0.05, 0.9)));
+//	testSwitches.push_back(new PrototypeSwitch(3, _V(-0.4, 0.05, 0.7)));
 
 	for (const auto& it : testSwitches) {
 		it->init(this, eventBroker);
