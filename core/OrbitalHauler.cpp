@@ -13,7 +13,7 @@
 #include "systems/rcs/ReactionControlSystem.h"
 #include "systems/dockport/DockPort.h"
 #include "cockpit/Cockpit.h"
-#include "switchflip/PrototypeSwitch.h"
+#include "flippinswitches/PrototypeSwitch.h"
 #include "core/OrbitalHauler.h"
 
 

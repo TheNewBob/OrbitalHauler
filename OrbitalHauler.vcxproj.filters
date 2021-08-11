@@ -45,7 +45,13 @@
     <ClCompile Include="cockpit\Cockpit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="switchflip\PrototypeSwitch.cpp">
+    <ClCompile Include="flippinswitches\PrototypeSwitch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="flippinswitches\InstrumentPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="flippinswitches\InstrumentPanelElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,10 +107,16 @@
     <ClInclude Include="cockpit\Cockpit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="switchflip\PrototypeSwitch.h">
+    <ClInclude Include="flippinswitches\PrototypeSwitch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="event\events\MouseEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="flippinswitches\InstrumentPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="flippinswitches\InstrumentPanelElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
