@@ -5,11 +5,12 @@
  */
 class InstrumentPanelElement
 {
+public:
 	InstrumentPanelElement(VESSEL4* vessel, EventBroker& eventBroker, EVENTTOPIC receiverTopic);
 	virtual ~InstrumentPanelElement();
 	virtual void init() = 0;
 	virtual void loadVc() = 0;
-	virtual void processMouseEvent(int event, VECTOR3& position) = 0;
+	virtual bool processMouseEvent(int event, VECTOR3& position) = 0;
 
 	int getVcAreaId() { return vcAreaId; };
 	int getElementId() { return elementId; };
