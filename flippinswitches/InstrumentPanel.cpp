@@ -18,12 +18,20 @@ void InstrumentPanel::init() {
 	// TODO: Make the thing placeable in the cockpit!
 	position = _V(0, 0, 0);
 	rotation = _V(0, 0, 1);
-	scale = _V(1, 1, 1);
+	scale = _V(2, 1, 2);
+
 	
 	if (drawBackground) {
-		mesh = oapiLoadMeshGlobal("switchflip\\switch");
+		mesh = oapiLoadMeshGlobal("switchflip\\plane");
 		vessel->SetMeshVisibilityMode(vessel->AddMesh(mesh, &position), MESHVIS_VC);
 	}
+
+	VECTOR3 upperLeftCorner = _V(position.x - scale.x / 2, position.y, position.z + scale.z / 2);
+	for (const auto& it : elements) {
+		it->init(upperLeftCorner);
+	}
+
+	isInitialised = true;
 }
 
 void InstrumentPanel::loadVc() {

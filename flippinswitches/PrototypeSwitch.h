@@ -3,26 +3,23 @@
 /**
 * Currently a placeholder for some prototyping for VC switches. Intended to be refactored into something sensible later.
 */
-class PrototypeSwitch : EventSubscriber
+class PrototypeSwitch : public InstrumentPanelElement
 {
 public:
-	PrototypeSwitch(int panelId, VECTOR3 position);
+	PrototypeSwitch(VESSEL4* vessel, EventBroker& eventBroker, EVENTTOPIC receiverTopic, int vcAreaId, VECTOR3 position);
 	~PrototypeSwitch();
-	void init(VESSEL4* vessel, EventBroker &eventBroker);
-	void loadVC();
+	void init(VECTOR3& panelPosition);
+	void loadVc();
 	
-	void receiveEvent(Event_Base* event, EVENTTOPIC topic);
+	bool processMouseEvent(int event, VECTOR3& position);
 
 
 private:
 	void toggle();
 
-	int panelId = -1;
 	MESHHANDLE mesh = NULL;
-	VECTOR3 position;
 	UINT animationId = -1;
 	UINT meshIndex = 0;
-	VESSEL4* vessel = NULL;
 	bool state = false;
 	MGROUP_ROTATE *animComponent = NULL;
 	UINT* meshGroups = NULL;

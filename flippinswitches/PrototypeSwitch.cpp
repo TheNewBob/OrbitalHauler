@@ -1,19 +1,20 @@
 #include "core/Common.h"
 #include "event/Events.h"
+#include "InstrumentPanelElement.h"
 #include "PrototypeSwitch.h"
 
-PrototypeSwitch::PrototypeSwitch(int panelId, VECTOR3 position): panelId(panelId), position(position) {}
+PrototypeSwitch::PrototypeSwitch(VESSEL4* vessel, EventBroker& eventBroker, EVENTTOPIC receiverTopic, int vcAreaId, VECTOR3 position)
+	: InstrumentPanelElement(vessel, eventBroker, receiverTopic, vcAreaId, position) {}
 
 PrototypeSwitch::~PrototypeSwitch() {
-	oapiDeleteMesh(mesh);
 	delete meshGroups;
 	delete animComponent;
 }
 
-void PrototypeSwitch::init(VESSEL4* vessel, EventBroker &eventBroker) {
-	this->vessel = vessel;
-	eventBroker.subscribe(this, EVENTTOPIC::UI_VC);
-
+void PrototypeSwitch::init(VECTOR3& panelPosition) {
+	
+	// TODO: a bit ugly, the panel should place the element, not the element itself...
+	position = _V(panelPosition.x + position.x, panelPosition.y + position.y, panelPosition.z - position.z);
 	meshIndex = vessel->GetMeshCount();
 	vessel->SetMeshVisibilityMode(vessel->AddMesh(mesh = oapiLoadMeshGlobal("switchflip\\switch"), &position), MESHVIS_VC);
 
@@ -26,21 +27,11 @@ void PrototypeSwitch::init(VESSEL4* vessel, EventBroker &eventBroker) {
 
 }
 
-void PrototypeSwitch::loadVC() {
+void PrototypeSwitch::loadVc() {
 	// This stuff *needs* to be called from clbkLoadVC, or it won't have an effect. Almost went crazy...
-	oapiVCRegisterArea(panelId, PANEL_REDRAW_NEVER, PANEL_MOUSE_LBDOWN);
-	oapiVCSetAreaClickmode_Spherical(panelId, position, 0.1);
+	oapiVCRegisterArea(vcAreaId, PANEL_REDRAW_NEVER, PANEL_MOUSE_LBDOWN);
+	oapiVCSetAreaClickmode_Spherical(vcAreaId, position, 0.1);
 
-}
-
-void PrototypeSwitch::receiveEvent(Event_Base *event, EVENTTOPIC topic) {
-
-	if (*event == EVENTTYPE::MOUSEEVENT) {
-		MouseEvent* mouseEvent = (MouseEvent*)event;
-		if (mouseEvent->getVcId() == panelId && mouseEvent->getEvent() == PANEL_MOUSE_LBDOWN) {
-				toggle();
-		}
-	}
 }
 
 void PrototypeSwitch::toggle() {
@@ -54,4 +45,11 @@ void PrototypeSwitch::toggle() {
 		state = true;
 	}
 
+}
+
+bool PrototypeSwitch::processMouseEvent(int event, VECTOR3& position) {
+	if (event == PANEL_MOUSE_LBDOWN) {
+		toggle();
+	}
+	return true;
 }

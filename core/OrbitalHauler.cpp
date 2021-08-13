@@ -13,6 +13,8 @@
 #include "systems/rcs/ReactionControlSystem.h"
 #include "systems/dockport/DockPort.h"
 #include "cockpit/Cockpit.h"
+#include "flippinswitches/InstrumentPanelElement.h"
+#include "flippinswitches/InstrumentPanel.h"
 #include "flippinswitches/PrototypeSwitch.h"
 #include "core/OrbitalHauler.h"
 
@@ -49,10 +51,14 @@ OrbitalHauler::OrbitalHauler(OBJHANDLE hVessel, int flightmodel) : VESSEL4(hVess
 
 OrbitalHauler::~OrbitalHauler() {
 	
+	delete panel;
+
 	// Delete vessel systems
 	for (const auto& it : systems) {
 		delete it;
 	}
+
+
 
 }
 
@@ -83,24 +89,17 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 
 
 	// VC (experimental)
-	VECTOR3 paneloffset = _V(0, 0, 0);
-	MESHHANDLE panelMesh = oapiLoadMeshGlobal("switchflip\\panel");
-	SetMeshVisibilityMode(AddMesh(panelMesh, &paneloffset), MESHVIS_VC);
+	panel = new InstrumentPanel(this);
 
 	for (int x = 0; x < 5; x++) {
 		for (int y = 0; y < 10; y++) {
 			int id = x + y * 5 + 1;
-			VECTOR3 panelPosition = _V(0.8 - (x * 0.4), 0.05, 0.9 - y * 0.2);
-			testSwitches.push_back(new PrototypeSwitch(id, panelPosition));
+			VECTOR3 panelPosition = _V(0.2 + x * 0.4, 0, 0.1 + y * 0.2);
+			panel->addElement(new PrototypeSwitch(this, eventBroker, EVENTTOPIC::UI_VC, id, panelPosition));
 		}
 	}
-//	testSwitches.push_back(new PrototypeSwitch(1, _V(-0.8, 0.05, 0.9)));
-//	testSwitches.push_back(new PrototypeSwitch(2, _V(-0.4, 0.05, 0.9)));
-//	testSwitches.push_back(new PrototypeSwitch(3, _V(-0.4, 0.05, 0.7)));
 
-	for (const auto& it : testSwitches) {
-		it->init(this, eventBroker);
-	}
+	panel->init();
 
 	// Event will be propagated in first clbkPreStep
 	eventBroker.publish(EVENTTOPIC::GENERAL, new SimpleEvent(EVENTTYPE::SIMULATIONSTARTEDEVENT));
@@ -119,16 +118,17 @@ void OrbitalHauler::clbkPreStep(double  simt, double  simdt, double  mjd) {
 bool OrbitalHauler::clbkLoadVC(int id) {
 
 	SetCameraOffset(_V(0, 1, -0.5));
-	for (const auto& it : testSwitches) {
-		it->loadVC();
-	}
+//	for (const auto& it : testSwitches) {
+//		it->loadVC();
+//	}
+	panel->loadVc();
 
 	return true;
 }
 
 bool OrbitalHauler::clbkVCMouseEvent(int id, int event, VECTOR3& p) {
 
-	eventBroker.publish(EVENTTOPIC::UI_VC, new MouseEvent(id, event));
+	return panel->processMouseEvent(id, event, p);
 	return true;
 }
 
