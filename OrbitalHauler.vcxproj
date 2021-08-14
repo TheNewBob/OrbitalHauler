@@ -228,6 +228,8 @@
     <ClCompile Include="systems\dockport\DockPort.cpp" />
     <ClCompile Include="systems\rcs\ReactionControlSystem.cpp" />
     <ClCompile Include="systems\mainengine\MainEngine.cpp" />
+    <ClCompile Include="util\Calc.cpp" />
+    <ClCompile Include="util\Rotations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cockpit\Cockpit.h" />
@@ -251,6 +253,8 @@
     <ClInclude Include="systems\rcs\ReactionControlSystem.h" />
     <ClInclude Include="systems\mainengine\MainEngine.h" />
     <ClInclude Include="systems\VesselSystem.h" />
+    <ClInclude Include="util\Calc.h" />
+    <ClInclude Include="util\Rotations.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

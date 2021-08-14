@@ -54,6 +54,12 @@
     <ClCompile Include="flippinswitches\InstrumentPanelElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="util\Rotations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\Calc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\OrbitalHauler.h">
@@ -117,6 +123,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="flippinswitches\InstrumentPanelElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Rotations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\Calc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
