@@ -3,6 +3,8 @@
 #include "InstrumentPanelElement.h"
 #include "PrototypeSwitch.h"
 
+#include "util/Rotations.h"
+
 PrototypeSwitch::PrototypeSwitch(VESSEL4* vessel, EventBroker& eventBroker, EVENTTOPIC receiverTopic, int vcAreaId, VECTOR3 position)
 	: InstrumentPanelElement(vessel, eventBroker, receiverTopic, vcAreaId, position) {}
 
@@ -11,17 +13,24 @@ PrototypeSwitch::~PrototypeSwitch() {
 	delete animComponent;
 }
 
-void PrototypeSwitch::init(VECTOR3& panelPosition) {
+void PrototypeSwitch::init(VECTOR3& panelPosition, MATRIX3& panelRotation) {
 	
 	// TODO: a bit ugly, the panel should place the element, not the element itself...
+	// Rotate the switch's position relative to the panel.
+	position = mul(panelRotation, position);
+	// Transform the switch's position from panel-relative to vessel-relative coordinates.
 	position = _V(panelPosition.x + position.x, panelPosition.y + position.y, panelPosition.z - position.z);
+	// Rotate switch to panel
 	meshIndex = vessel->GetMeshCount();
 	vessel->SetMeshVisibilityMode(vessel->AddMesh(mesh = oapiLoadMeshGlobal("switchflip\\switch"), &position), MESHVIS_VC);
 
 	meshGroups = new UINT[1];
 	meshGroups[0] = 0;
 	
-	animComponent = new MGROUP_ROTATE(meshIndex, meshGroups, 1, _V(-0, 0, 0), _V(0, 0, 1), 0.35);
+	VECTOR3 rotationReference = mul(panelRotation, _V(-0, 0, 0));
+	VECTOR3 rotationAxis = mul(panelRotation, _V(0, 0, 1));
+
+	animComponent = new MGROUP_ROTATE(meshIndex, meshGroups, 1, rotationReference, rotationAxis, 0.35);
 	animationId = vessel->CreateAnimation(0.0);
 	vessel->AddAnimationComponent(animationId, 0.0f, 1.0f, animComponent);
 
@@ -52,4 +61,10 @@ bool PrototypeSwitch::processMouseEvent(int event, VECTOR3& position) {
 		toggle();
 	}
 	return true;
+}
+
+void PrototypeSwitch::visualCreated(VISHANDLE vis, MATRIX3& panelRotation) {
+	// Rotate the mesh to the panel
+	DEVMESHHANDLE devMesh = vessel->GetDevMesh(vis, meshIndex);
+	Rotations::TransformMesh(mesh, devMesh, panelRotation);
 }

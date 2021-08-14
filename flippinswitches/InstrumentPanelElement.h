@@ -8,9 +8,10 @@ class InstrumentPanelElement
 public:
 	InstrumentPanelElement(VESSEL4* vessel, EventBroker &eventBroker, EVENTTOPIC receiverTopic, int vcAreaId, VECTOR3 position);
 	virtual ~InstrumentPanelElement();
-	virtual void init(VECTOR3 &panelPosition) = 0;
+	virtual void init(VECTOR3 &panelPosition, MATRIX3 &panelRotation) = 0;
 	virtual void loadVc() = 0;
 	virtual bool processMouseEvent(int event, VECTOR3& position) = 0;
+	virtual void visualCreated(VISHANDLE vis, MATRIX3 &panelRotation) = 0;
 
 	int getVcAreaId() { return vcAreaId; };
 

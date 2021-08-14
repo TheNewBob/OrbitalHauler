@@ -12,11 +12,19 @@ public:
 	bool clbkLoadVC(int id);
 	bool clbkVCMouseEvent(int id, int event, VECTOR3& p);
 	bool clbkVCRedrawEvent(int  id, int  event, SURFHANDLE  surf);
+	void clbkVisualCreated(VISHANDLE vis, int refcount);
+
+	VISHANDLE getVisHandle() { return hVis; };
 
 private:
 	vector<VesselSystem*> systems;
 	EventBroker eventBroker;
 	InstrumentPanel* panel = 0;
+	
+	/**
+	 * Visual handle of the vessel.
+	 */
+	VISHANDLE hVis = NULL;
 
 
 };

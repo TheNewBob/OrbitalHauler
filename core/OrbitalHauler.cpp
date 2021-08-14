@@ -91,6 +91,7 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 	// VC (experimental)
 	panel = new InstrumentPanel(this);
 
+
 	for (int x = 0; x < 5; x++) {
 		for (int y = 0; y < 10; y++) {
 			int id = x + y * 5 + 1;
@@ -98,6 +99,7 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 			panel->addElement(new PrototypeSwitch(this, eventBroker, EVENTTOPIC::UI_VC, id, panelPosition));
 		}
 	}
+
 
 	panel->init();
 
@@ -138,4 +140,7 @@ bool OrbitalHauler::clbkVCRedrawEvent(int  id, int  event, SURFHANDLE  surf) {
 	return false;
 }
 
+void OrbitalHauler::clbkVisualCreated(VISHANDLE vis, int refcount) {
+	panel->visualCreated(vis);
+}
 
