@@ -26,10 +26,16 @@ void InstrumentPanel::init() {
 
 	rotationMatrix = Rotations::GetRotationMatrixFromOrientation(direction, rotation);
 	
-	// TODO: I suspect this is what messes up rotating switches into place right now, but it's not fixed with a simple mul. Need to think this through.
+	// TODO: Position propagation is an ugly hackish test right now.
+	
 	VECTOR3 upperLeftCorner = _V(position.x - scale.x / 2, position.y, position.z + scale.z / 2);
 	for (const auto& it : elements) {
-		it->init(upperLeftCorner, rotationMatrix);
+		VECTOR3& elementPosition = it->getPosition();
+		VECTOR3 absolutePosition = _V(upperLeftCorner.x + elementPosition.x, upperLeftCorner.y + elementPosition.y, upperLeftCorner.z - elementPosition.z);
+		VECTOR3 panelRelativePosition = position - absolutePosition;
+		panelRelativePosition = mul(rotationMatrix, panelRelativePosition);
+		absolutePosition = position + panelRelativePosition;
+		it->init(absolutePosition, rotationMatrix);
 	}
 
 	if (drawBackground) {
@@ -44,8 +50,15 @@ void InstrumentPanel::init() {
 void InstrumentPanel::loadVc() {
 	Olog::assertThat([&]() { return isInitialised == true; }, "Panel must be initialised before calling loadVc!");
 
+	// TODO: Uber-ugly code duplication because hurry
+	VECTOR3 upperLeftCorner = _V(position.x - scale.x / 2, position.y, position.z + scale.z / 2);
 	for (const auto& it : elements) {
-		it->loadVc();
+		VECTOR3& elementPosition = it->getPosition();
+		VECTOR3 absolutePosition = _V(upperLeftCorner.x + elementPosition.x, upperLeftCorner.y + elementPosition.y, upperLeftCorner.z - elementPosition.z);
+		VECTOR3 panelRelativePosition = position - absolutePosition;
+		panelRelativePosition = mul(rotationMatrix, panelRelativePosition);
+		absolutePosition = position + panelRelativePosition;
+		it->loadVc(absolutePosition);
 	}
 }
 

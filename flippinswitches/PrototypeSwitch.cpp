@@ -13,16 +13,16 @@ PrototypeSwitch::~PrototypeSwitch() {
 	delete animComponent;
 }
 
-void PrototypeSwitch::init(VECTOR3& panelPosition, MATRIX3& panelRotation) {
+void PrototypeSwitch::init(VECTOR3& absoluteElementPosition, MATRIX3& panelRotation) {
 	
 	// TODO: a bit ugly, the panel should place the element, not the element itself...
 	// Rotate the switch's position relative to the panel.
-	position = mul(panelRotation, position);
+//	position = mul(panelRotation, position);
 	// Transform the switch's position from panel-relative to vessel-relative coordinates.
-	position = _V(panelPosition.x + position.x, panelPosition.y + position.y, panelPosition.z - position.z);
+	//position = _V(panelPosition.x + position.x, panelPosition.y + position.y, panelPosition.z - position.z);
 	// Rotate switch to panel
 	meshIndex = vessel->GetMeshCount();
-	vessel->SetMeshVisibilityMode(vessel->AddMesh(mesh = oapiLoadMeshGlobal("switchflip\\switch"), &position), MESHVIS_VC);
+	vessel->SetMeshVisibilityMode(vessel->AddMesh(mesh = oapiLoadMeshGlobal("switchflip\\switch"), &absoluteElementPosition), MESHVIS_VC);
 
 	meshGroups = new UINT[1];
 	meshGroups[0] = 0;
@@ -36,10 +36,10 @@ void PrototypeSwitch::init(VECTOR3& panelPosition, MATRIX3& panelRotation) {
 
 }
 
-void PrototypeSwitch::loadVc() {
+void PrototypeSwitch::loadVc(VECTOR3& elementAbsolutePosition) {
 	// This stuff *needs* to be called from clbkLoadVC, or it won't have an effect. Almost went crazy...
 	oapiVCRegisterArea(vcAreaId, PANEL_REDRAW_NEVER, PANEL_MOUSE_LBDOWN);
-	oapiVCSetAreaClickmode_Spherical(vcAreaId, position, 0.1);
+	oapiVCSetAreaClickmode_Spherical(vcAreaId, elementAbsolutePosition, 0.1);
 
 }
 

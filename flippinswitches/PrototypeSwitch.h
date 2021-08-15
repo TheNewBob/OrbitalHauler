@@ -8,8 +8,8 @@ class PrototypeSwitch : public InstrumentPanelElement
 public:
 	PrototypeSwitch(VESSEL4* vessel, EventBroker& eventBroker, EVENTTOPIC receiverTopic, int vcAreaId, VECTOR3 position);
 	~PrototypeSwitch();
-	void init(VECTOR3& panelPosition, MATRIX3& panelRotation);
-	void loadVc();
+	void init(VECTOR3& absoluteElementPosition, MATRIX3& panelRotation);
+	void loadVc(VECTOR3& elementAbsolutePosition);
 	void visualCreated(VISHANDLE vis, MATRIX3& panelRotation);
 	
 	bool processMouseEvent(int event, VECTOR3& position);
