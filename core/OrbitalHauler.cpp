@@ -95,13 +95,12 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 	for (int x = 0; x < 5; x++) {
 		for (int y = 0; y < 10; y++) {
 			int id = x + y * 5 + 1;
-			VECTOR3 panelPosition = _V(0.2 + x * 0.4, 0, 0.1 + y * 0.2);
-			panel->addElement(new PrototypeSwitch(this, eventBroker, EVENTTOPIC::UI_VC, id, panelPosition));
+			panel->addElement(new PrototypeSwitch(this, id), 0.2 + x * 0.4, 0.1 + y * 0.2);
 		}
 	}
 
 
-	panel->init();
+	panel->init(&eventBroker, EVENTTOPIC::UI_VC);
 
 	// Event will be propagated in first clbkPreStep
 	eventBroker.publish(EVENTTOPIC::GENERAL, new SimpleEvent(EVENTTYPE::SIMULATIONSTARTEDEVENT));

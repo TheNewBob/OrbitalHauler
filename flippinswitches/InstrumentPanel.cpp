@@ -15,7 +15,7 @@ InstrumentPanel::~InstrumentPanel() {
 	}
 }
 
-void InstrumentPanel::init() {
+void InstrumentPanel::init(EventBroker* eventBroker, EVENTTOPIC receiverTopic) {
 	Olog::assertThat([&]() { return isInitialised == false; }, "Please don't initialise a panel twice, it's a mess you don't want!");
 	
 	// TODO: Make the thing placeable in the cockpit!
@@ -28,14 +28,15 @@ void InstrumentPanel::init() {
 	
 	// TODO: Position propagation is an ugly hackish test right now.
 	
-	VECTOR3 upperLeftCorner = _V(position.x - scale.x / 2, position.y, position.z + scale.z / 2);
+	//VECTOR3 upperLeftCorner = _V(position.x - scale.x / 2, position.y, position.z + scale.z / 2);
 	for (const auto& it : elements) {
-		VECTOR3& elementPosition = it->getPosition();
+/*		VECTOR3& elementPosition = it->getPanelRelativePosition();
 		VECTOR3 absolutePosition = _V(upperLeftCorner.x + elementPosition.x, upperLeftCorner.y + elementPosition.y, upperLeftCorner.z - elementPosition.z);
 		VECTOR3 panelRelativePosition = position - absolutePosition;
 		panelRelativePosition = mul(rotationMatrix, panelRelativePosition);
-		absolutePosition = position + panelRelativePosition;
-		it->init(absolutePosition, rotationMatrix);
+		absolutePosition = position + panelRelativePosition;*/
+		VECTOR3 elementAbsolutePosition = calculateElementsAbsolutePosition(it, rotationMatrix);
+		it->init(elementAbsolutePosition, eventBroker, receiverTopic, rotationMatrix);
 	}
 
 	if (drawBackground) {
@@ -47,18 +48,20 @@ void InstrumentPanel::init() {
 	isInitialised = true;
 }
 
+VECTOR3 InstrumentPanel::calculateElementsAbsolutePosition(InstrumentPanelElement* element, MATRIX3& panelRotation) {
+	VECTOR3& naturalRelativePosition = element->getPanelRelativePosition();
+	VECTOR3 rotatedPanelRelativePosition = mul(panelRotation, naturalRelativePosition);
+	return position + rotatedPanelRelativePosition;
+
+}
+
 void InstrumentPanel::loadVc() {
 	Olog::assertThat([&]() { return isInitialised == true; }, "Panel must be initialised before calling loadVc!");
 
-	// TODO: Uber-ugly code duplication because hurry
-	VECTOR3 upperLeftCorner = _V(position.x - scale.x / 2, position.y, position.z + scale.z / 2);
+	
 	for (const auto& it : elements) {
-		VECTOR3& elementPosition = it->getPosition();
-		VECTOR3 absolutePosition = _V(upperLeftCorner.x + elementPosition.x, upperLeftCorner.y + elementPosition.y, upperLeftCorner.z - elementPosition.z);
-		VECTOR3 panelRelativePosition = position - absolutePosition;
-		panelRelativePosition = mul(rotationMatrix, panelRelativePosition);
-		absolutePosition = position + panelRelativePosition;
-		it->loadVc(absolutePosition);
+		VECTOR3 elementPosition = calculateElementsAbsolutePosition(it, rotationMatrix);
+		it->loadVc(elementPosition);
 	}
 }
 
@@ -81,8 +84,15 @@ void InstrumentPanel::visualCreated(VISHANDLE vis) {
 }
 
 
-void InstrumentPanel::addElement(InstrumentPanelElement* element) {
+void InstrumentPanel::addElement(InstrumentPanelElement* element, double x, double y) {
 	Olog::assertThat([&]() { return isInitialised == false; }, "Cannot add elements to panel after it is initialised!");
+	// Calculate the elements position relative to the panels center
+	double panelLeftEdge = scale.x / 2 * -1;
+	double panelBottomEdge = scale.z / 2 * -1;
+
+	VECTOR3 elementPosition = _V(panelLeftEdge + x, 0, panelBottomEdge + y);
+	element->setPanelRelativePosition(elementPosition);
+	
 	elements.push_back(element);
 }
 

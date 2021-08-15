@@ -5,9 +5,9 @@ public:
 	InstrumentPanel(VESSEL4* vessel);
 	~InstrumentPanel();
 
-	void init();
+	void init(EventBroker *eventBroker, EVENTTOPIC receiverTopic);
 	void loadVc();
-	void addElement(InstrumentPanelElement* element);
+	void addElement(InstrumentPanelElement* element, double x, double y);
 
 	/**
 	 * Pass data received from clbkVCMouseEvent to here.
@@ -30,5 +30,7 @@ private:
 	bool isInitialised = false;
 	VESSEL4* vessel;
 	bool drawBackground = true;
+
+	VECTOR3 calculateElementsAbsolutePosition(InstrumentPanelElement *element, MATRIX3& panelRotation);
 };
 

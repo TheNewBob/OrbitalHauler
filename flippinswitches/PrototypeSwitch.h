@@ -6,11 +6,10 @@
 class PrototypeSwitch : public InstrumentPanelElement
 {
 public:
-	PrototypeSwitch(VESSEL4* vessel, EventBroker& eventBroker, EVENTTOPIC receiverTopic, int vcAreaId, VECTOR3 position);
+	PrototypeSwitch(VESSEL4* vessel, int vcAreaId);
 	~PrototypeSwitch();
-	void init(VECTOR3& absoluteElementPosition, MATRIX3& panelRotation);
+	void initElement(MATRIX3 &panelRotation);
 	void loadVc(VECTOR3& elementAbsolutePosition);
-	void visualCreated(VISHANDLE vis, MATRIX3& panelRotation);
 	
 	bool processMouseEvent(int event, VECTOR3& position);
 
@@ -18,9 +17,7 @@ public:
 private:
 	void toggle();
 
-	MESHHANDLE mesh = NULL;
 	UINT animationId = -1;
-	UINT meshIndex = 0;
 	bool state = false;
 	MGROUP_ROTATE *animComponent = NULL;
 	UINT* meshGroups = NULL;
