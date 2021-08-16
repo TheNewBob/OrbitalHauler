@@ -68,8 +68,18 @@ protected:
 	EVENTTOPIC receiverTopic;
 	MESHHANDLE mesh = NULL;
 	UINT meshIndex = -1;
-	string meshName = "";
 
-	virtual void initElement(MATRIX3& panelRotation) = 0;
+
+	/**
+	 * Override this method to initialise MESHHANDLE this->mesh and add it to the vessel at elementAbsolutePosition.
+	 * You are free to do other initialisations, most commonly animations, or whatever else you need to set up for your specific element implementation.
+	 * But the mesh *must* be initialised, and *must* be part of the vessel and in the proper position when this method returns, or there will be mayhem.
+	 * You do *not* need to rotate the mesh to the panel, this action will be performed by the base class.
+	 * You *do* however need to rotate your animation references yourself if you have any, use the passed rotation matrix for that.
+	 * this-meshIndex will already be initialised in when this method is called, so do not overwrite it. You are free to use it if you need it, though.
+     * 
+	 * The major reason why mesh loading is left to the implementation is so the implementation can freely choose the source of the mesh, which must not necessarily be loaded from file.
+	 */
+	virtual void initElement(MATRIX3& panelRotation, VECTOR3 &elementAbsolutePosition) = 0;
 };
 

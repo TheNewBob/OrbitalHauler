@@ -13,8 +13,10 @@ PrototypeSwitch::~PrototypeSwitch() {
 	delete animComponent;
 }
 
-void PrototypeSwitch::initElement(MATRIX3 &panelRotation) {
+void PrototypeSwitch::initElement(MATRIX3 &panelRotation, VECTOR3& elementAbsolutePosition) {
 	
+	mesh = oapiLoadMeshGlobal("switchflip/switch");
+	vessel->AddMesh(mesh, &elementAbsolutePosition);
 
 	meshGroups = new UINT[1];
 	meshGroups[0] = 0;

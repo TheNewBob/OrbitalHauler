@@ -7,7 +7,14 @@
 #include "util/Rotations.h"
 
 
-InstrumentPanel::InstrumentPanel(VESSEL4* vessel): vessel(vessel) {}
+InstrumentPanel::InstrumentPanel(VESSEL4* vessel): vessel(vessel) {
+	// TODO: Make these configurable!
+	position = _V(0, 0, 1);
+	rotation = _V(0, 0, -1);
+	direction = _V(0, 1, 0);
+	scale = _V(2, 1, 2);
+
+}
 
 InstrumentPanel::~InstrumentPanel() {
 	for (const auto& it : elements) {
@@ -18,23 +25,9 @@ InstrumentPanel::~InstrumentPanel() {
 void InstrumentPanel::init(EventBroker* eventBroker, EVENTTOPIC receiverTopic) {
 	Olog::assertThat([&]() { return isInitialised == false; }, "Please don't initialise a panel twice, it's a mess you don't want!");
 	
-	// TODO: Make the thing placeable in the cockpit!
-	position = _V(0, 0, 1);
-	rotation = _V(0, 0, -1);
-	direction = _V(0, 1, 0);
-	scale = _V(2, 1, 2);
-
 	rotationMatrix = Rotations::GetRotationMatrixFromOrientation(direction, rotation);
 	
-	// TODO: Position propagation is an ugly hackish test right now.
-	
-	//VECTOR3 upperLeftCorner = _V(position.x - scale.x / 2, position.y, position.z + scale.z / 2);
 	for (const auto& it : elements) {
-/*		VECTOR3& elementPosition = it->getPanelRelativePosition();
-		VECTOR3 absolutePosition = _V(upperLeftCorner.x + elementPosition.x, upperLeftCorner.y + elementPosition.y, upperLeftCorner.z - elementPosition.z);
-		VECTOR3 panelRelativePosition = position - absolutePosition;
-		panelRelativePosition = mul(rotationMatrix, panelRelativePosition);
-		absolutePosition = position + panelRelativePosition;*/
 		VECTOR3 elementAbsolutePosition = calculateElementsAbsolutePosition(it, rotationMatrix);
 		it->init(elementAbsolutePosition, eventBroker, receiverTopic, rotationMatrix);
 	}
@@ -57,7 +50,6 @@ VECTOR3 InstrumentPanel::calculateElementsAbsolutePosition(InstrumentPanelElemen
 
 void InstrumentPanel::loadVc() {
 	Olog::assertThat([&]() { return isInitialised == true; }, "Panel must be initialised before calling loadVc!");
-
 	
 	for (const auto& it : elements) {
 		VECTOR3 elementPosition = calculateElementsAbsolutePosition(it, rotationMatrix);

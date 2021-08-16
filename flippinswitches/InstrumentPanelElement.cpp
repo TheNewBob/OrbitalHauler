@@ -13,12 +13,17 @@ InstrumentPanelElement::~InstrumentPanelElement() {}
 
 void InstrumentPanelElement::init(VECTOR3 &absoluteElementPosition, EventBroker *eventBroker, EVENTTOPIC receiverTopic, MATRIX3& panelRotation) {
 
+	this->eventBroker = eventBroker;
+	this->receiverTopic = receiverTopic;
+
 	// Add element mesh to the virtual cockpit
 	meshIndex = vessel->GetMeshCount();
-	vessel->SetMeshVisibilityMode(vessel->AddMesh(mesh = oapiLoadMeshGlobal((char*)meshName.c_str()), &absoluteElementPosition), MESHVIS_VC);
 
-	// Let element implementations do additional things like defining animations.
-	initElement(panelRotation);
+	// Let element implementations define the mesh and oter stuff, most commonly animations.
+	initElement(panelRotation, absoluteElementPosition);
+
+	vessel->SetMeshVisibilityMode(meshIndex, MESHVIS_VC);
+
 }
 
 void InstrumentPanelElement::visualCreated(VISHANDLE vis, MATRIX3& panelRotation) {
