@@ -7,13 +7,9 @@
 #include "util/Rotations.h"
 
 
-InstrumentPanel::InstrumentPanel(VESSEL4* vessel): vessel(vessel) {
-	// TODO: Make these configurable!
-	position = _V(0, 0, 1);
-	rotation = _V(0, 0, -1);
-	direction = _V(0, 1, 0);
-	scale = _V(2, 1, 2);
-
+InstrumentPanel::InstrumentPanel(VESSEL4* vessel, double width, double height, VECTOR3 position, VECTOR3 facingDirection, VECTOR3 upDirection)
+	: vessel(vessel), position(position), facingDirection(facingDirection), upDirection(upDirection) {
+	scale = _V(width, 0, height);
 }
 
 InstrumentPanel::~InstrumentPanel() {
@@ -24,8 +20,8 @@ InstrumentPanel::~InstrumentPanel() {
 
 void InstrumentPanel::init(EventBroker* eventBroker, EVENTTOPIC receiverTopic) {
 	Olog::assertThat([&]() { return isInitialised == false; }, "Please don't initialise a panel twice, it's a mess you don't want!");
-	
-	rotationMatrix = Rotations::GetRotationMatrixFromOrientation(direction, rotation);
+
+	rotationMatrix = Rotations::GetRotationMatrixFromOrientation(upDirection, facingDirection);
 	
 	for (const auto& it : elements) {
 		VECTOR3 elementAbsolutePosition = calculateElementsAbsolutePosition(it, rotationMatrix);
@@ -33,6 +29,7 @@ void InstrumentPanel::init(EventBroker* eventBroker, EVENTTOPIC receiverTopic) {
 	}
 
 	if (drawBackground) {
+		// TODO: Scale mesh to fit dimensions!
 		mesh = oapiLoadMeshGlobal("switchflip\\plane");
 		meshIndex = vessel->AddMesh(mesh, &position);
 		vessel->SetMeshVisibilityMode(meshIndex, MESHVIS_VC);
@@ -60,7 +57,7 @@ void InstrumentPanel::loadVc() {
 void InstrumentPanel::visualCreated(VISHANDLE vis) {
 
 	// Rotate the mesh to the set rotation
-	if (drawBackground && Rotations::RequiresRotation(direction, rotation))
+	if (drawBackground && Rotations::RequiresRotation(upDirection, facingDirection))
 	{
 
 		//MESHHANDLE meshTemplate = vessel->GetMeshTemplate(meshIndex);
