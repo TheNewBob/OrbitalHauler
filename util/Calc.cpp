@@ -11,6 +11,7 @@ Calc::~Calc()
 {
 }
 
+const  double Calc::RAD_PER_DEGREE = 0.0174532925;
 
 bool Calc::IsNear(const double number, const double compare, const double inaccuracy)
 {

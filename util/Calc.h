@@ -40,5 +40,7 @@ public:
 	static double Round(double d, double precision);
 	static void RoundVector(VECTOR3& v, double precision);
 
+	static const  double RAD_PER_DEGREE;
+
 };
 

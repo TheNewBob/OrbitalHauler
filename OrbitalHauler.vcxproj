@@ -215,6 +215,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animation\AnimationData.cpp" />
+    <ClCompile Include="animation\Animation_Base.cpp" />
+    <ClCompile Include="animation\Animation_Continuous.cpp" />
+    <ClCompile Include="animation\Animation_Sequential.cpp" />
+    <ClCompile Include="animation\Animation_Tracking.cpp" />
     <ClCompile Include="cockpit\Cockpit.cpp" />
     <ClCompile Include="core\OrbitalHauler.cpp" />
     <ClCompile Include="event\EventBroker.cpp" />
@@ -232,13 +237,28 @@
     <ClCompile Include="util\Rotations.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animation\AnimationData.h" />
+    <ClInclude Include="animation\Animation_Base.h" />
+    <ClInclude Include="animation\Animation_Continuous.h" />
+    <ClInclude Include="animation\Animation_Sequential.h" />
+    <ClInclude Include="animation\Animation_Tracking.h" />
     <ClInclude Include="cockpit\Cockpit.h" />
     <ClInclude Include="core\Common.h" />
     <ClInclude Include="core\OrbitalHauler.h" />
     <ClInclude Include="event\EventSubscriber.h" />
     <ClInclude Include="event\EventBroker.h" />
     <ClInclude Include="event\Events.h" />
+    <ClInclude Include="event\events\AnimationEvent_Base.h" />
+    <ClInclude Include="event\events\AnimationFailedEvent.h" />
+    <ClInclude Include="event\events\AnimationFinishedEvent.h" />
+    <ClInclude Include="event\events\AnimationStartedEvent.h" />
+    <ClInclude Include="event\events\ModifyAnimationEvent.h" />
+    <ClInclude Include="event\events\ModifyTrackingAnimationEvent.h" />
     <ClInclude Include="event\events\MouseEvent.h" />
+    <ClInclude Include="event\events\StartAnimationEvent.h" />
+    <ClInclude Include="event\events\StartTrackingAnimationEvent.h" />
+    <ClInclude Include="event\events\StopAnimationEvent.h" />
+    <ClInclude Include="event\events\TrackingAnimationStatusEvent.h" />
     <ClInclude Include="event\EventTypes.h" />
     <ClInclude Include="event\Event_Base.h" />
     <ClInclude Include="event\Event_Timed.h" />
