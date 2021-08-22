@@ -22,5 +22,11 @@ private:
 	MGROUP_ROTATE *animComponent = NULL;
 	UINT* meshGroups = NULL;
 
+	// TODO: Temporary for prototyping
+	Animation_Sequential* animation = NULL;
+	ANIMCOMPONENTDATA* rotation = NULL;
+	ANIMATIONDATA* animationData = NULL;
+
+
 };
 

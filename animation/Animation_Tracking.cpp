@@ -24,24 +24,23 @@ void Animation_Tracking::initFacing()
 
 // the tracking animation needs quite a bit of a different aproach, because technically, it's two animations, and they behave a bit differently
 //from the usual and require additional data.
-void Animation_Tracking::AddAnimationToVessel(VESSEL4 *_vessel, int _meshindex, MATRIX3 moduleorientation, VECTOR3 modulelocalpos)
+void Animation_Tracking::AddAnimationToVessel(VESSEL4 *_vessel)
 {
 	initFacing();
 	vessel = _vessel;
-	meshindex = _meshindex;
-	primaryaxis = mul(moduleorientation, data->components[0]->axis);
+	primaryaxis = mul(data->rotationMatrix, data->components[0]->axis);
 	
 	//create primary animation on vessel and remember the orbiter ID 
 	orbiterid = createAnim(0.0);
 	//create the component for the primary animation
 	animationcomponents.push_back(vessel->AddAnimationComponent(orbiterid, data->components[0]->duration[0], data->components[0]->duration[1],
-		createRotationComponent(data->components[0], modulelocalpos, moduleorientation)));
+		createRotationComponent(data->components[0], data->rotationMatrix)));
 
 	//check if there is a secondary animation and create if yes
 	if (data->components.size() > 1)
 	{
 		secondaryorbiterid = createAnim(0.0);
-		secondaryaxis = mul(moduleorientation, data->components[1]->axis);
+		secondaryaxis = mul(data->rotationMatrix, data->components[1]->axis);
 	}
 
 	Olog::debug("created tracking animation %s %i", data->id.data(), orbiterid);
@@ -49,13 +48,13 @@ void Animation_Tracking::AddAnimationToVessel(VESSEL4 *_vessel, int _meshindex, 
 	//if there's a secondary animation, create its component too
 	if (secondaryorbiterid != -1)
 	{
-		secondrotation = createRotationComponent(data->components[1], modulelocalpos, moduleorientation);
+		secondrotation = createRotationComponent(data->components[1], data->rotationMatrix);
 		animationcomponents.push_back(vessel->AddAnimationComponent(secondaryorbiterid, data->components[1]->duration[0], data->components[1]->duration[1],
 			secondrotation));
 	}
 	
 	//transform the direction the animation needs to face
-	facing = mul(moduleorientation, facing);
+	facing = mul(data->rotationMatrix, facing);
 	
 	//if the animation is tracking a target or retreating when it is created, immediately calculate the target states and the shortest way
 	if (target != NULL || stopanimation)

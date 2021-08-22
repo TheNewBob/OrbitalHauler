@@ -13,6 +13,11 @@
 #include "systems/rcs/ReactionControlSystem.h"
 #include "systems/dockport/DockPort.h"
 #include "cockpit/Cockpit.h"
+
+#include "animation/AnimationData.h"
+#include "animation/Animation_Base.h"
+#include "animation/Animation_Sequential.h"
+
 #include "flippinswitches/InstrumentPanelElement.h"
 #include "flippinswitches/InstrumentPanel.h"
 #include "flippinswitches/PrototypeSwitch.h"

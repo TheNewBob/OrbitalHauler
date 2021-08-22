@@ -1,8 +1,13 @@
 #include "core/Common.h"
 #include "event/Events.h"
+#include "OpForwardDeclare.h"
 #include "InstrumentPanelElement.h"
-#include "PrototypeSwitch.h"
 
+#include "animation/AnimationData.h"
+#include "animation/Animation_Base.h"
+#include "animation/Animation_Sequential.h"
+
+#include "PrototypeSwitch.h"
 #include "util/Rotations.h"
 
 PrototypeSwitch::PrototypeSwitch(VESSEL4* vessel, int vcAreaId)
@@ -21,7 +26,27 @@ void PrototypeSwitch::initElement(MATRIX3 &panelRotation, VECTOR3& elementAbsolu
 	meshGroups = new UINT[1];
 	meshGroups[0] = 0;
 
+	
+	// TODO: testing hook-up, properties should be moved to a config file for the switch, but I have to add the animation manager first...
+
+	/*
+	rotation = new ANIMCOMPONENTDATA();
+	rotation->axis = _V(0, 0, 1);
+	rotation->reference = _V(0, 0, 0);
+	rotation->type = "Rotate";
+	rotation->range = 20;
+
+	animationData = new ANIMATIONDATA();
+	animationData->components.push_back(rotation);
+	animationData->duration = 5;
+	animationData->type = "Sequence";
+
+	animation = new Animation_Sequential(animationData);
+	animation->AddAnimationToVessel(vessel, meshIndex, panelRotation, elementAbsolutePosition);
+	*/
+
 	// Rotate animation references to panel.
+
 	VECTOR3 rotationReference = mul(panelRotation, _V(-0, 0, 0));
 	VECTOR3 rotationAxis = mul(panelRotation, _V(0, 0, 1));
 

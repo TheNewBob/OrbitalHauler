@@ -23,7 +23,7 @@ public:
 	Animation_Tracking(ANIMATIONDATA *_data);
 	~Animation_Tracking();
 
-	virtual void AddAnimationToVessel(VESSEL4 *_vessel, int _meshindex, MATRIX3 moduleorientation, VECTOR3 modulelocalpos);
+	virtual void AddAnimationToVessel(VESSEL4 *_vessel);
 	virtual AnimationEvent_Base *PropagateAnimation(double simdt);
 	virtual AnimationEvent_Base *StartAnimation(StartAnimationEvent *startevent);
 	virtual void ModifyAnimation(ModifyAnimationEvent *modifyevent);

@@ -35,9 +35,22 @@ struct ANIMATIONDATA
 	string id = "";
 	double duration;
 	string type = "";
+	// Only used for tracking animations
 	VECTOR3 facing;
 	vector<ANIMCOMPONENTDATA*> components;
 	vector<ANIMATIONDEPENDENCY> dependencies;
+	/**
+	 * Rotation matrix to align the animation with the mesh if the mesh was transformed. By default, this is identity.
+	 * This parameter cannot be set from a config. It needs to be set if the code transformed the mesh the animation refers to directly (i.e. not by another animation, use child dependencies for that).
+	 */
+	MATRIX3 rotationMatrix = _M(1, 0, 0,  0, 1, 0,  0, 0, 1);
+	
+	/**
+	 * orbiter mesh index of the mesh the animation refers to.
+	 * This cannot be set in the config file, it needs to be set when the relevant mesh is added to the vessel.
+	 * By default, will always refer to the first mesh. So if you only have one mesh, no need to bother.
+	 */
+	UINT meshIndex = 0;
 
 	Oparse::OpModelDef GetModelDef();
 };

@@ -19,7 +19,7 @@ public:
 	 * \param moduleorientation Matrix to transform from module-relative to vessel-relative coordinates
 	 * \param modulelocalpos Vessel-relative position of the module containing this animation
 	 */
-	virtual void AddAnimationToVessel(VESSEL4 *_vessel, int _meshindex, MATRIX3 orientation, VECTOR3 offset);
+	virtual void AddAnimationToVessel(VESSEL4 *_vessel);
 
 	/**
 	 * \brief Removes the animation from the vessel
@@ -101,7 +101,6 @@ protected:
 	double speed = 0.0;												//!< The current speed/direction of the animation
 	int orbiterid;													//!< The orbiter-generated identifier for this animation
 	double state = 0.0;												//!< The current state of the animation (>= 0.0 <= 1.0)
-	int meshindex = 0;												//!< The orbiter generated index of the mesh this animation acts on
 	double maxspeed = 1e12;											//!< The maximum speed the animation can have. Effects not yet implemented
 	vector<UINT*> animationgroups;									//!< List meshgroup indices this animation acts on
 	vector<ANIMATIONCOMPONENT_HANDLE> animationcomponents;			//!< List of orbiter-internal components this animation consists of
@@ -111,8 +110,7 @@ protected:
 	/**
 	 * \brief Creates a rotation animation component that can be added to the animation on the vessel
 	 * \param comp The data to create the component from
-	 * \param modulelocalpos The vessel-relative position of the module this animation is part of
-	 * \param moduleorientation Transformation matrix from vessel-relative to module-relative orientation
+	 * \param meshRotation Transformation matrix from vessel-relative to mesh-relative orientation
 	 * \return A pointer to the created MGROUP_ROTATE object
 	 * \note Once the component is added to an orbiter animation, it must be destroyed by destroying the animation with oapi calls.
 	 *	Destroying the object otherwise will lead to a crash. Not adding the returned component to an orbiter animation will result in a 
@@ -120,13 +118,12 @@ protected:
 	 * \see createTranslationComponent()
 	 * \see createScaleComponent()
 	 */
-	MGROUP_ROTATE *createRotationComponent(ANIMCOMPONENTDATA *comp, VECTOR3 modulelocalpos, MATRIX3 moduleorientation);
+	MGROUP_ROTATE *createRotationComponent(ANIMCOMPONENTDATA *comp, MATRIX3 meshRotation);
 	
 	/**
  	 * \brief Creates a translation animation component that can be added to the animation on the vessel
 	 * \param comp The data to create the component from
-	 * \param modulelocalpos The vessel-relative position of the module this animation is part of
-	 * \param moduleorientation Transformation matrix from vessel-relative to module-relative orientation
+	 * \param meshRotation Transformation matrix from vessel-relative to mesh-relative orientation
 	 * \return A pointer to the created MGROUP_TRANSLATE object
 	 * \note Once the component is added to an orbiter animation, it must be destroyed by destroying the animation with oapi calls.
 	 *	Destroying the object otherwise will lead to a crash. Not adding the returned component to an orbiter animation will result in a
@@ -134,13 +131,12 @@ protected:
 	 * \see createRotationComponent()
 	 * \see createScaleComponent()
 	 */
-	MGROUP_TRANSLATE *createTranslationComponent(ANIMCOMPONENTDATA *comp, VECTOR3 modulelocalpos, MATRIX3 moduleorientation);
+	MGROUP_TRANSLATE *createTranslationComponent(ANIMCOMPONENTDATA *comp, MATRIX3 meshRotation);
 	
 	/**
 	 * \brief Creates a scale animation component that can be added to the animation on the vessel
 	 * \param comp The data to create the component from
-	 * \param modulelocalpos The vessel-relative position of the module this animation is part of
-	 * \param moduleorientation Transformation matrix from vessel-relative to module-relative orientation
+	 * \param meshRotation Transformation matrix from vessel-relative to mesh-relative orientation
 	 * \return A pointer to the created MGROUP_ROTATE object
 	 * \note Once the component is added to an orbiter animation, it must be destroyed by destroying the animation with oapi calls.
 	 *	Destroying the object otherwise will lead to a crash. Not adding the returned component to an orbiter animation will result in a
@@ -149,7 +145,7 @@ protected:
 	 * \see createRotationComponent()
 	 * \todo As there have been no scaling animations yet, this is untested!
 	 */
-	MGROUP_SCALE *createScaleComponent(ANIMCOMPONENTDATA *comp, VECTOR3 modulelocalpos, MATRIX3 moduleorientation);
+	MGROUP_SCALE *createScaleComponent(ANIMCOMPONENTDATA *comp, MATRIX3 meshRotation);
 
 	UINT createAnim(double initial_state);
 };

@@ -33,11 +33,10 @@ void Animation_Base::InitStateFromScenario(vector<string> &line)
 }
 
 
-void Animation_Base::AddAnimationToVessel(VESSEL4 *_vessel, int _meshindex, MATRIX3 moduleorientation, VECTOR3 modulelocalpos)
+void Animation_Base::AddAnimationToVessel(VESSEL4 *_vessel)
 {
 
 	vessel = _vessel;
-	meshindex = _meshindex;
 
 	//create animation on vessel and remember the orbiter ID 
 	orbiterid = createAnim(0.0);
@@ -65,19 +64,19 @@ void Animation_Base::AddAnimationToVessel(VESSEL4 *_vessel, int _meshindex, MATR
 		if (data->components[i]->type == "rotate")
 		{
 			animationcomponents.push_back(vessel->AddAnimationComponent(orbiterid, data->components[i]->duration[0], data->components[i]->duration[1],
-				createRotationComponent(data->components[i], modulelocalpos, moduleorientation),
+				createRotationComponent(data->components[i], data->rotationMatrix),
 				parent));
 		}
 		else if (data->components[i]->type == "translate")
 		{
 			animationcomponents.push_back(vessel->AddAnimationComponent(orbiterid, data->components[i]->duration[0], data->components[i]->duration[1],
-				createTranslationComponent(data->components[i], modulelocalpos, moduleorientation),
+				createTranslationComponent(data->components[i], data->rotationMatrix),
 				parent));
 		}
 		else if (data->components[i]->type == "scale")
 		{
 			animationcomponents.push_back(vessel->AddAnimationComponent(orbiterid, data->components[i]->duration[0], data->components[i]->duration[1],
-				createScaleComponent(data->components[i], modulelocalpos, moduleorientation),
+				createScaleComponent(data->components[i], data->rotationMatrix),
 				parent));
 		}
 	}
@@ -115,7 +114,7 @@ void Animation_Base::RemoveAnimationFromVessel()
 
 
 
-MGROUP_ROTATE *Animation_Base::createRotationComponent(ANIMCOMPONENTDATA *comp, VECTOR3 modulelocalpos, MATRIX3 moduleorientation)
+MGROUP_ROTATE *Animation_Base::createRotationComponent(ANIMCOMPONENTDATA *comp, MATRIX3 meshRotation)
 {
 	//create an array for the groups and copy them over
 	UINT *groups = new UINT[comp->groups.size()];
@@ -127,19 +126,18 @@ MGROUP_ROTATE *Animation_Base::createRotationComponent(ANIMCOMPONENTDATA *comp, 
 
 	//get the rotation reference and transform it to the modules alignement within the vessel
 	VECTOR3 rotreference = comp->reference;
-	rotreference = mul(moduleorientation, rotreference);
+	rotreference = mul(meshRotation, rotreference);
 	Calc::RoundVector(rotreference, 1000);
-//	rotreference += modulelocalpos;
 
 	//doing the same with the rotation axis
 	VECTOR3 rotaxis = comp->axis;
-	rotaxis = mul(moduleorientation, rotaxis);
+	rotaxis = mul(meshRotation, rotaxis);
 	normalise(rotaxis);
 
 
 	//bunch it all together into an MGROUP_ROTATE object
 	return new MGROUP_ROTATE(
-		meshindex,
+		data->meshIndex,
 		groups, comp->groups.size(),
 		rotreference,
 		rotaxis,
@@ -148,7 +146,7 @@ MGROUP_ROTATE *Animation_Base::createRotationComponent(ANIMCOMPONENTDATA *comp, 
 
 
 
-MGROUP_TRANSLATE *Animation_Base::createTranslationComponent(ANIMCOMPONENTDATA *comp, VECTOR3 modulelocalpos, MATRIX3 moduleorientation)
+MGROUP_TRANSLATE *Animation_Base::createTranslationComponent(ANIMCOMPONENTDATA *comp, MATRIX3 meshRotation)
 {
 	//create an array for the groups and copy them over
 	UINT *groups = new UINT[comp->groups.size()];
@@ -160,20 +158,20 @@ MGROUP_TRANSLATE *Animation_Base::createTranslationComponent(ANIMCOMPONENTDATA *
 
 	//rotate the translation vector to the module's alignement
 	VECTOR3 translation = comp->reference;
-	translation = mul(moduleorientation, translation);
+	translation = mul(meshRotation, translation);
 	Calc::RoundVector(translation, 1000);
 
 
 	//bunch it all together into an MGROUP_ROTATE object
 	return new MGROUP_TRANSLATE(
-		meshindex,
+		data->meshIndex,
 		groups, comp->groups.size(),
 		translation);
 }
 
 
 
-MGROUP_SCALE *Animation_Base::createScaleComponent(ANIMCOMPONENTDATA *comp, VECTOR3 modulelocalpos, MATRIX3 moduleorientation)
+MGROUP_SCALE *Animation_Base::createScaleComponent(ANIMCOMPONENTDATA *comp, MATRIX3 meshRotation)
 {
 	//create an array for the groups and copy them over
 	UINT *groups = new UINT[comp->groups.size()];
@@ -185,18 +183,18 @@ MGROUP_SCALE *Animation_Base::createScaleComponent(ANIMCOMPONENTDATA *comp, VECT
 
 	//get the scaling origin and transform it to the modules alignement within the vessel
 	VECTOR3 origin = comp->reference;
-	origin = mul(moduleorientation, origin);
+	origin = mul(meshRotation, origin);
 	Calc::RoundVector(origin, 1000);
 
 	//doing the same with the actual scale factor (axis doubles for scale at this point in the ANIMATIONCOMPONENT struct)
 	VECTOR3 scale = comp->axis;
-	scale = mul(moduleorientation, scale);
+	scale = mul(meshRotation, scale);
 	Calc::RoundVector(scale, 1000);
 
 
 	//bunch it all together into an MGROUP_ROTATE object
 	return new MGROUP_SCALE(
-		meshindex,
+		data->meshIndex,
 		groups, comp->groups.size(),
 		origin,
 		scale);

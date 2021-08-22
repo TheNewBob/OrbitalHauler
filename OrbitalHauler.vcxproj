@@ -215,6 +215,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="animation\AnimationManager.cpp" />
     <ClCompile Include="animation\AnimationData.cpp" />
     <ClCompile Include="animation\Animation_Base.cpp" />
     <ClCompile Include="animation\Animation_Continuous.cpp" />
@@ -237,6 +238,7 @@
     <ClCompile Include="util\Rotations.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animation\AnimationManager.h" />
     <ClInclude Include="animation\AnimationData.h" />
     <ClInclude Include="animation\Animation_Base.h" />
     <ClInclude Include="animation\Animation_Continuous.h" />
