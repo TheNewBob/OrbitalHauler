@@ -15,7 +15,7 @@ public:
 	InstrumentPanel(VESSEL4* vessel, double width, double height, VECTOR3 position, VECTOR3 facingDirection, VECTOR3 upDirection);
 	~InstrumentPanel();
 
-	void init(EventBroker *eventBroker, EVENTTOPIC receiverTopic);
+	void init(EventBroker *eventBroker, EVENTTOPIC receiverTopic, AnimationManager *animationManager);
 	void loadVc();
 	void addElement(InstrumentPanelElement* element, double x, double y);
 

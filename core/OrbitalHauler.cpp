@@ -17,6 +17,7 @@
 #include "animation/AnimationData.h"
 #include "animation/Animation_Base.h"
 #include "animation/Animation_Sequential.h"
+#include "animation/AnimationManager.h"
 
 #include "flippinswitches/InstrumentPanelElement.h"
 #include "flippinswitches/InstrumentPanel.h"
@@ -52,18 +53,19 @@ DLLCLBK void InitModule(HINSTANCE hModule) {
 
 OrbitalHauler::OrbitalHauler(OBJHANDLE hVessel, int flightmodel) : VESSEL4(hVessel, flightmodel) { 
 
+	animationManager = new AnimationManager(this, eventBroker);
+
 }
 
 OrbitalHauler::~OrbitalHauler() {
 	
 	delete panel;
+	delete animationManager;
 
 	// Delete vessel systems
 	for (const auto& it : systems) {
 		delete it;
 	}
-
-
 
 }
 
@@ -105,11 +107,13 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 	}
 
 
-	panel->init(&eventBroker, EVENTTOPIC::UI_VC);
+	panel->init(&eventBroker, EVENTTOPIC::UI_VC, animationManager);
 
 	// Event will be propagated in first clbkPreStep
 	eventBroker.publish(EVENTTOPIC::GENERAL, new SimpleEvent(EVENTTYPE::SIMULATIONSTARTEDEVENT));
 
+	// Create animations and add the m to the vessel.
+	animationManager->init();
 }
 
 
@@ -118,6 +122,10 @@ void OrbitalHauler::clbkPreStep(double  simt, double  simdt, double  mjd) {
 	// Propagate due events.
 	// This should always remain at the beginning of clbkPreStep and never be called anywhere else.
 	eventBroker.processEvents();
+	
+	// Propagate animation states.
+	animationManager->preStep(simdt);
+
 
 }
 

@@ -12,7 +12,7 @@ public:
 	/**
 	 * Initialises the element in relation to its containing panel. Invoked from InstrumentPanel.init(), do not call yourself!
 	 */
-	void init(VECTOR3 &elementAbsolutePosition, EventBroker *eventBroker, EVENTTOPIC receiverTopic, MATRIX3 &panelRotation);
+	void init(VECTOR3 &elementAbsolutePosition, EventBroker *eventBroker, EVENTTOPIC receiverTopic, MATRIX3 &panelRotation, AnimationManager* animationManager);
 	
 	/**
 	 * Performs positioning and area registration when clbkLoadVc is called. Invoked from InstrumentPanel.loadVc(), do not call yourself!
@@ -80,6 +80,6 @@ protected:
      * 
 	 * The major reason why mesh loading is left to the implementation is so the implementation can freely choose the source of the mesh, which must not necessarily be loaded from file.
 	 */
-	virtual void initElement(MATRIX3& panelRotation, VECTOR3 &elementAbsolutePosition) = 0;
+	virtual void initElement(MATRIX3& panelRotation, VECTOR3 &elementAbsolutePosition, AnimationManager* animationManager) = 0;
 };
 

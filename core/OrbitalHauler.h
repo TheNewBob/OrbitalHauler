@@ -2,6 +2,7 @@
 
 class PrototypeSwitch;
 class InstrumentPanel;
+class AnimationManager;
 
 class OrbitalHauler : public VESSEL4 {
 public:
@@ -19,6 +20,7 @@ public:
 private:
 	vector<VesselSystem*> systems;
 	EventBroker eventBroker;
+	AnimationManager* animationManager = 0;
 	InstrumentPanel* panel = 0;
 	
 	/**

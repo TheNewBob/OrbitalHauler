@@ -11,7 +11,9 @@
 #include "AnimationManager.h"
 
 
-AnimationManager::AnimationManager(VESSEL4 *vessel, EventBroker &eventBroker) : vessel(vessel), eventBroker(eventBroker), EventSubscriber() {}
+AnimationManager::AnimationManager(VESSEL4 *vessel, EventBroker &eventBroker) : vessel(vessel), eventBroker(eventBroker), EventSubscriber() {
+	
+}
 
 AnimationManager::~AnimationManager() {
 	// TODO: delete animations!
@@ -33,6 +35,9 @@ void AnimationManager::addAnimation(ANIMATIONDATA *data) {
 	{
 		newanim = new Animation_Tracking(data);
 	}
+	else {
+		Olog::error("Invalid animation type: %s; Must be any of 'sequence', 'continuous', or 'track' (case sensitive!)");
+	}
 	animations.insert(make_pair(data->id, newanim));
 
 	if (isInitialised) {
@@ -52,6 +57,8 @@ void AnimationManager::removeAnimation(ANIMATIONDATA* data) {
 
 void AnimationManager::init() {
 	Olog::assertThat([&]() { return !isInitialised; }, "AnimationManager.init() is being called twice!");
+
+	eventBroker.subscribe(this, EVENTTOPIC::ANIMATION);
 
 	for (const auto& it : animations) {
 		it.second->AddAnimationToVessel(vessel);

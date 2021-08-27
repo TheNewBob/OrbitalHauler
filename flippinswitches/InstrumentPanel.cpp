@@ -1,5 +1,11 @@
 #include "core/Common.h"
 #include "event/Events.h"
+#include "OpForwardDeclare.h"
+
+#include "animation/AnimationData.h"
+#include "animation/Animation_Base.h"
+#include "animation/AnimationManager.h"
+
 #include "InstrumentPanelElement.h"
 #include "InstrumentPanel.h"
 
@@ -18,14 +24,14 @@ InstrumentPanel::~InstrumentPanel() {
 	}
 }
 
-void InstrumentPanel::init(EventBroker* eventBroker, EVENTTOPIC receiverTopic) {
+void InstrumentPanel::init(EventBroker* eventBroker, EVENTTOPIC receiverTopic, AnimationManager* animationManager) {
 	Olog::assertThat([&]() { return isInitialised == false; }, "Please don't initialise a panel twice, it's a mess you don't want!");
 
 	rotationMatrix = Rotations::GetRotationMatrixFromOrientation(upDirection, facingDirection);
 	
 	for (const auto& it : elements) {
 		VECTOR3 elementAbsolutePosition = calculateElementsAbsolutePosition(it, rotationMatrix);
-		it->init(elementAbsolutePosition, eventBroker, receiverTopic, rotationMatrix);
+		it->init(elementAbsolutePosition, eventBroker, receiverTopic, rotationMatrix, animationManager);
 	}
 
 	if (drawBackground) {

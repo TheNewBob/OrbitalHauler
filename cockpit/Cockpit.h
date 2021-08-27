@@ -6,7 +6,7 @@ public:
 	Cockpit() {};
 	~Cockpit() {};
 
-	void init(OrbitalHauler *vessel);
+	void init(VESSEL4 *vessel);
 	void defineAreas();
 
 	MESHHANDLE mesh;

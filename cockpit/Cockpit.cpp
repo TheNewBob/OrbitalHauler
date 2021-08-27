@@ -3,11 +3,10 @@
 #include "event/Events.h"
 #include "systems/VesselSystem.h"
 #include "Cockpit.h"
-#include "core/OrbitalHauler.h"
 
 
 
-void Cockpit::init(OrbitalHauler *vessel) {
+void Cockpit::init(VESSEL4 *vessel) {
 	VECTOR3 paneloffset = _V(0, 0, 0);
 	MESHHANDLE panelMesh = oapiLoadMeshGlobal("switchflip\\panel");
 	vessel->SetMeshVisibilityMode(vessel->AddMesh(panelMesh , &paneloffset), MESHVIS_VC);

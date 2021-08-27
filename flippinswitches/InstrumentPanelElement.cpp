@@ -1,5 +1,11 @@
 #include "core/Common.h"
 #include "event/Events.h"
+#include "OpForwardDeclare.h"
+
+#include "animation/AnimationData.h"
+#include "animation/Animation_Base.h"
+#include "animation/AnimationManager.h"
+
 #include "InstrumentPanelElement.h"
 
 #include "util/Rotations.h"
@@ -11,7 +17,7 @@ InstrumentPanelElement::InstrumentPanelElement(VESSEL4* vessel, int vcAreaId):
 InstrumentPanelElement::~InstrumentPanelElement() {}
 
 
-void InstrumentPanelElement::init(VECTOR3 &absoluteElementPosition, EventBroker *eventBroker, EVENTTOPIC receiverTopic, MATRIX3& panelRotation) {
+void InstrumentPanelElement::init(VECTOR3 &absoluteElementPosition, EventBroker *eventBroker, EVENTTOPIC receiverTopic, MATRIX3& panelRotation, AnimationManager* animationManager) {
 
 	this->eventBroker = eventBroker;
 	this->receiverTopic = receiverTopic;
@@ -20,7 +26,7 @@ void InstrumentPanelElement::init(VECTOR3 &absoluteElementPosition, EventBroker 
 	meshIndex = vessel->GetMeshCount();
 
 	// Let element implementations define the mesh and oter stuff, most commonly animations.
-	initElement(panelRotation, absoluteElementPosition);
+	initElement(panelRotation, absoluteElementPosition, animationManager);
 
 	vessel->SetMeshVisibilityMode(meshIndex, MESHVIS_VC);
 
