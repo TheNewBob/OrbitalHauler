@@ -11,7 +11,7 @@
 #include "AnimationManager.h"
 
 
-AnimationManager::AnimationManager(VESSEL4 *vessel) : vessel(vessel) {}
+AnimationManager::AnimationManager(VESSEL4 *vessel, EventBroker &eventBroker) : vessel(vessel), eventBroker(eventBroker), EventSubscriber() {}
 
 AnimationManager::~AnimationManager() {
 	// TODO: delete animations!
@@ -70,4 +70,71 @@ void AnimationManager::preStep(double simdt) {
 		//TODO: Publish events!
 	}
 }
+
+void AnimationManager::receiveEvent(Event_Base* event, EVENTTOPIC topic) {
+
+	AnimationEvent_Base* animationEvent = dynamic_cast<AnimationEvent_Base*>(event);
+
+	if (animationEvent != NULL) {
+		auto animation = animations.find(animationEvent->GetAnimationId());
+		if (animation == animations.end()) {
+			Olog::warn("call to nonexisting animation: %s", animationEvent->GetAnimationId().data());
+		} else {
+
+			if (*event == EVENTTYPE::STARTANIMATIONEVENT) {
+				//check if the start of the animation is hindered by dependencies
+				StartAnimationEvent* startEvent = (StartAnimationEvent*)animationEvent;
+				if (canStart(animation->second, startEvent->GetSpeed()))
+				{
+					eventBroker.publish(EVENTTOPIC::ANIMATION, animation->second->StartAnimation(startEvent));
+				}
+				else
+				{
+					eventBroker.publish(EVENTTOPIC::ANIMATION, new AnimationFailedEvent(startEvent->GetAnimationId(), startEvent->GetSpeed()));
+				}
+			}
+
+			else if (*event == EVENTTYPE::MODIFYANIMATIONEVENT) {
+				animation->second->ModifyAnimation((ModifyAnimationEvent*)animationEvent);
+			}
+
+			else if (*event == EVENTTYPE::STOPANIMATIONEVENT)
+			{
+				//stop the animation in question
+				animation->second->StopAnimation();
+			}
+		}
+	}
+}
+
+bool AnimationManager::canStart(Animation_Base* anim, double speed) {
+	vector<ANIMATIONDEPENDENCY> deps;
+	anim->GetDependencies(deps);
+
+	for (UINT i = 0; i < deps.size(); ++i)
+	{
+		//find the dependency animation
+		auto dep = animations.find(deps[i].dependencyid);
+		if (dep == animations.end())
+		{
+			Olog::warn("dependency to nonexisting animation: %s", deps[i].dependencyid.data());
+		}
+		else
+		{
+			//check if the dependency applies to the direction the animation should move in
+			if (speed > 0 && deps[i].direction > 0 ||
+				speed < 0 && deps[i].direction < 0)
+			{
+				//check if the dependency is in a state where it prevents the animation from starting
+				if (dep->second->GetState() != deps[i].dependencystate)
+				{
+					//if only one dependency doesn't check out, the animation cannot start
+					return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
 

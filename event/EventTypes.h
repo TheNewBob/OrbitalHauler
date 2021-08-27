@@ -33,5 +33,6 @@ enum class EVENTTOPIC
 {
 	GENERAL,
 	UI_VC,
+	ANIMATION
 
 };
