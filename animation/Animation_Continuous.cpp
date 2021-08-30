@@ -36,7 +36,7 @@ AnimationEvent_Base *Animation_Continuous::PropagateAnimation(double simdt)
 				state = 0.0;
 				speed = 0.0;
 				stopmenexttime = false;
-				return new AnimationFinishedEvent(data->id);
+				return new AnimationFinishedEvent(data->id, state);
 			}
 			else
 			{
@@ -53,7 +53,7 @@ AnimationEvent_Base *Animation_Continuous::PropagateAnimation(double simdt)
 				state = 0.0;
 				speed = 0.0;
 				stopmenexttime = false;
-				return new AnimationFinishedEvent(data->id);
+				return new AnimationFinishedEvent(data->id, state);
 			}
 			else
 			{

@@ -19,8 +19,13 @@ public:
 	/**
 	 * \param animationid Identifier of the animation that finished
 	 */
-	AnimationFinishedEvent(string animationid) : AnimationEvent_Base(EVENTTYPE::ANIMATIONFINISHEDEVENT, animationid, 0){};
+	AnimationFinishedEvent(string animationid, double state) 
+		: state(state), AnimationEvent_Base(EVENTTYPE::ANIMATIONFINISHEDEVENT, animationid, 0){};
 	~AnimationFinishedEvent(){};
+
+	double getState() { return state; };
+private:
+	double state;
 
 };
 

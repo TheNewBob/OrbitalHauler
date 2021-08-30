@@ -74,7 +74,7 @@ void AnimationManager::preStep(double simdt) {
 		//tell all animations to update
 		auto animationEvent = (i->second->PropagateAnimation(simdt));
 
-		//TODO: Publish events!
+		eventBroker.publish(EVENTTOPIC::ANIMATION, animationEvent);
 	}
 }
 

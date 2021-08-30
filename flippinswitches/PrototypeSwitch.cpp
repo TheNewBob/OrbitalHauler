@@ -12,7 +12,7 @@
 #include "util/Rotations.h"
 
 PrototypeSwitch::PrototypeSwitch(VESSEL4* vessel, int vcAreaId)
-	: InstrumentPanelElement(vessel, vcAreaId) {}
+	: InstrumentPanelElement(vessel, vcAreaId), EventSubscriber() {}
 
 PrototypeSwitch::~PrototypeSwitch() {
 	for (const auto& it : animationData->components) {
@@ -46,6 +46,8 @@ void PrototypeSwitch::initElement(MATRIX3 &panelRotation, VECTOR3& elementAbsolu
 	animationData->meshIndex = meshIdx;
 
 	animationManager->addAnimation(animationData);
+
+	eventBroker->subscribe(this, EVENTTOPIC::ANIMATION);
 }
 
 void PrototypeSwitch::loadVc(VECTOR3& elementAbsolutePosition) {
@@ -55,7 +57,7 @@ void PrototypeSwitch::loadVc(VECTOR3& elementAbsolutePosition) {
 
 }
 
-void PrototypeSwitch::toggle() {
+void PrototypeSwitch::toggleSwitch() {
 
 	if (state) {
 		eventBroker->publish(EVENTTOPIC::ANIMATION, new StartAnimationEvent(animationId, -1));
@@ -68,8 +70,25 @@ void PrototypeSwitch::toggle() {
 
 bool PrototypeSwitch::processMouseEvent(int event, VECTOR3& position) {
 	if (event == PANEL_MOUSE_LBDOWN) {
-		toggle();
+		toggleSwitch();
 	}
 	return true;
+}
+
+void PrototypeSwitch::receiveEvent(Event_Base* event, EVENTTOPIC topic) {
+
+	if (topic == EVENTTOPIC::ANIMATION) {
+		if (*event == EVENTTYPE::ANIMATIONFINISHEDEVENT) {
+			AnimationFinishedEvent* finishedEvent = (AnimationFinishedEvent*)event;
+			if (finishedEvent->GetAnimationId() == animationData->id) {
+				if (finishedEvent->getState() > 0.999) {
+					state = true;
+				}
+				else {
+					state = false;
+				}
+			}
+		}
+	}
 }
 

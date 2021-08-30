@@ -3,7 +3,7 @@
 /**
 * Currently a placeholder for some prototyping for VC switches. Intended to be refactored into something sensible later.
 */
-class PrototypeSwitch : public InstrumentPanelElement
+class PrototypeSwitch : public InstrumentPanelElement, EventSubscriber
 {
 public:
 	PrototypeSwitch(VESSEL4* vessel, int vcAreaId);
@@ -13,9 +13,11 @@ public:
 	
 	bool processMouseEvent(int event, VECTOR3& position);
 
+	void receiveEvent(Event_Base* event, EVENTTOPIC topic);
+
 
 private:
-	void toggle();
+	void toggleSwitch();
 
 //	UINT animationId = -1;
 	bool state = false;

@@ -47,7 +47,7 @@ AnimationEvent_Base *Animation_Sequential::PropagateAnimation(double simdt)
 		//if the animation has finished, return the event.
 		if (speed == 0.0)
 		{
-			return new AnimationFinishedEvent(data->id);
+			return new AnimationFinishedEvent(data->id, state);
 		}
 	}
 

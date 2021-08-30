@@ -135,7 +135,7 @@ AnimationEvent_Base *Animation_Tracking::PropagateAnimation(double simdt)
 					speed = 0.0;
 					secondaryspeed = 0.0;
 					stopanimation = false;
-					statusevent = new AnimationFinishedEvent(data->id);
+					statusevent = new AnimationFinishedEvent(data->id, state);
 				}
 				else
 				{
