@@ -98,6 +98,8 @@ void OrbitalHauler::clbkSetClassCaps(FILEHANDLE cfg) {
 	// VC (experimental)
 	panel = new InstrumentPanel(this, 2, 2, _V(0, 0, 1), _V(0, 0, -1), _V(0, 1, 0));
 
+//	panel->addElement(new PrototypeSwitch(this, 1), 0.2, 0.1);
+
 
 	for (int x = 0; x < 5; x++) {
 		for (int y = 0; y < 10; y++) {

@@ -19,13 +19,8 @@ private:
 
 //	UINT animationId = -1;
 	bool state = false;
-	MGROUP_ROTATE *animComponent = NULL;
-	UINT* meshGroups = NULL;
 	string animationId = "";
 
-	// TODO: Temporary for prototyping
-	Animation_Sequential* animation = NULL;
-	ANIMCOMPONENTDATA* rotation = NULL;
 	ANIMATIONDATA* animationData = NULL;
 
 };
